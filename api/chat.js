@@ -76,19 +76,24 @@ export default async function handler(req, res) {
             `;
         }
 
+// 1. KHỞI TẠO MODEL (Xóa bỏ dòng systemInstruction ở đây)
+        // Đảm bảo tên model có đuôi -it (Instruction Tuned - phiên bản dành cho Chat)
         const model = genAI.getGenerativeModel({ 
-            model: "gemma-3-4b-it", 
-            systemInstruction: { parts: [{ text: systemInstruction }] }
+            model: "gemma-3-4b-it" 
         });
 
-        // Tạo câu trả lời
-        const result = await model.generateContent(userMessage);
+        // 2. NỐI CHUỖI: Ép System Prompt và câu hỏi của user thành 1 cục duy nhất
+        const finalPrompt = `${systemInstruction}\n\n[CÂU HỎI CỦA NGƯỜI DÙNG / USER QUESTION]:\n${userMessage}`;
+
+        // 3. GỬI CHO GEMMA XỬ LÝ
+        const result = await model.generateContent(finalPrompt);
         const response = await result.response;
         
         return res.status(200).json({ reply: response.text() });
 
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Lỗi kết nối đến AI Server / Connection error.' });
+        console.error("Lỗi chi tiết từ Google:", error);
+        // Bắn thông báo lỗi THỰC TẾ ra cho Frontend để dễ debug
+        return res.status(500).json({ message: 'Lỗi AI: ' + error.message });
     }
 }
