@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hồ sơ năng lực - Nguyễn Minh Mẫn</title>
+    <title>Hồ sơ - Nguyễn Minh Mẫn</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -33,43 +33,138 @@
         html { background-color: #f9fafb; }
         html.dark { background-color: #111827; } 
         html.is-switching body { opacity: 0; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .cursor-grabbing { cursor: grabbing !important; }
+        .skill-card {
+            position: relative;
+        }
 
-        /* Hiệu ứng chạy ngang (Marquee) cho Projects */
-        @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
+        .skill-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(59, 130, 246, 0.15), 
+                transparent 40%
+            );
+            z-index: -1;
+            transition: opacity 0.3s ease;
+            opacity: 0;
         }
-        .animate-marquee {
-            /* 40s là tốc độ cuộn. Tăng số này lên nếu muốn cuộn chậm hơn */
-            animation: marquee 40s linear infinite;
+
+        .skill-card:hover::before {
+            opacity: 1;
         }
-        /* Dừng cuộn khi rê chuột vào để người dùng kịp đọc và bấm nút */
-        .animate-marquee:hover {
-            animation-play-state: paused;
+
+        .project-card, .edu-card {
+            position: relative;
+        }
+
+        .project-card::before, .edu-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(59, 130, 246, 0.12), 
+                transparent 40%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .project-card:hover::before, .edu-card:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .cursor-blink { animation: blink 1s step-end infinite; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(80px); 
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); 
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0); 
+        }
+
+        .reveal.delay-100 { transition-delay: 100ms; }
+        .reveal.delay-150 { transition-delay: 150ms; }
+        .reveal.delay-200 { transition-delay: 200ms; }
+        .reveal.delay-300 { transition-delay: 300ms; }
+        .reveal.delay-400 { transition-delay: 400ms; }
+
+
+        @keyframes pulse-glow-primary {
+            0%, 100% { box-shadow: 0 0 15px rgba(37, 99, 235, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(37, 99, 235, 0.8); }
+        }
+        @keyframes pulse-glow-secondary {
+            0%, 100% { box-shadow: 0 0 10px rgba(156, 163, 175, 0.2); }
+            50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+        }
+        
+        .btn-glow-primary {
+            animation: pulse-glow-primary 3s infinite;
+        }
+        .btn-glow-secondary {
+            transition: all 1s ease;
+        }
+        .btn-glow-secondary:hover {
+            animation: pulse-glow-secondary 2s infinite;
+        }
+
+        @keyframes shimmer {
+            100% { transform: translateX(100%); }
+        }
+
+        :root .theme-bg {
+            background-image: url('thumbnail_png/light_bg.jpg');
+        }
+    
+        html.dark .theme-bg {
+            background-image: url('thumbnail_png/dark_bg.jpg');
         }
     </style>
 </head>
 
+<body class="text-gray-900 dark:text-gray-100 font-sans antialiased transition-colors duration-300">
+    <div class="theme-bg fixed inset-0 z-[-10] w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-1000">
+        <div class="absolute inset-0 bg-white/60 dark:bg-gray-900/90 backdrop-blur-[2px] transition-colors duration-1000"></div>
+    </div>
 
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-300 font-sans antialiased">
     <nav class="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-6">
             <div class="flex justify-center md:justify-end items-center h-16 space-x-4 md:space-x-6 text-sm font-medium">
-                <a href="#profile" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">Giới thiệu</a>
-                <a href="#projects" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">Dự án</a>
-                <a href="#skills" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">Kỹ năng</a>
-                <a href="#experience" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">Kinh nghiệm</a>
-                <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">Liên hệ</a>
+                <a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">Về Tôi</a>
+                <a href="#projects" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">Dự Án</a>
+                <a href="#skills" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">Kỹ Năng</a>
+                <a href="#experience" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">Kinh Nghiệm</a>
+                <a href="#contact" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors">Liên Hệ</a>
 
                 <div class="w-px h-5 bg-gray-300 dark:bg-gray-700 hidden md:block"></div>
 
-                <!-- Đã cập nhật nút Switch sang index.html và đẩy chấm tròn sang phải -->
-                <a id="lang-switch" href="/" class="flex items-center space-x-2 group cursor-pointer" title="Switch to English">
+                <a id="lang-switch" href="/" class="flex items-center space-x-2 group cursor-pointer" title="Chuyển sang tiếng Anh">
                     <span class="text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">EN</span>
-                    <div class="w-11 h-6 bg-gray-300 dark:bg-gray-700 rounded-full relative flex items-center p-1 group-hover:bg-gray-400 dark:group-hover:bg-gray-600 transition-colors">
-                        <div class="bg-white w-4 h-4 rounded-full shadow-md transform translate-x-5 transition-transform"></div>
+                    <!-- Cập nhật nút gạt sang phải (translate-x-5) biểu thị đang ở chế độ VI -->
+                    <div class="w-11 h-6 bg-gray-300 dark:bg-gray-700 rounded-full relative flex items-center p-1 transition-colors">
+                        <div class="bg-white w-4 h-4 rounded-full shadow-md transform translate-x-5"></div>
                     </div>
-                    <span class="text-gray-900 dark:text-white font-bold">VI</span>
+                    <!-- Chữ VI nổi bật lên -->
+                    <span class="text-gray-900 dark:text-white font-bold transition-colors">VI</span>
                 </a>
 
                 <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors ml-2">
@@ -85,226 +180,316 @@
     </nav>
 
     <main class="max-w-5xl mx-auto px-6 pt-20">
-        <!-- 1. PROFILE SECTION -->
+
+<!-- 1. HERO SECTION  -->
         <section id="profile" class="min-h-screen flex flex-col justify-center py-20 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
             <p class="text-blue-600 dark:text-blue-500 mb-4 font-mono text-lg">Xin chào, tôi là</p>
-            <h1 class="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6">Nguyễn Minh Mẫn</h1>            
-            <h2 class="text-3xl md:text-5xl font-bold text-gray-700 dark:text-gray-500 mb-8">
-                Nghiên cứu Định lượng <br class="hidden md:block">
-                <span class="text-gray-500 dark:text-gray-400">& Khoa học Dữ liệu</span>
+            
+            <h1 class="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-4 flex items-center min-h-[60px] md:min-h-[84px]">
+                <span id="typewriter-name"></span>
+                <span id="name-cursor" class="cursor-blink inline-block w-[3px] h-[1em] bg-blue-600 dark:bg-blue-500 ml-2"></span>
+            </h1>            
+            
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-700 dark:text-gray-500 mb-8 min-h-[40px] md:min-h-[60px] flex items-center flex-wrap">
+                <span class="mr-3">Là một</span>
+                <span id="rotating-text" class="text-blue-600 dark:text-blue-500"></span>
+                <span id="role-cursor" class="cursor-blink inline-block w-[3px] h-[1em] bg-gray-500 ml-1 hidden"></span>
             </h2>
             
             <p class="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mb-10 leading-relaxed">
-            Sinh viên ngành Toán và Khoa học Máy tính với nền tảng vững chắc về Machine Learning, Deep Learning và các phương pháp định lượng. Có kinh nghiệm trong việc xây dựng hệ thống AI và mô hình thống kê, với niềm đam mê dành cho thị trường tài chính và giao dịch hệ thống. Tôi mong muốn áp dụng kỹ năng lập trình và phân tích để phát triển các giải pháp dựa trên dữ liệu.
+            Sinh viên ngành Toán và Khoa học Máy tính với nền tảng vững chắc về Học máy (Machine Learning), Học sâu (Deep Learning) và các phương pháp định lượng. Có kinh nghiệm trong việc xây dựng hệ thống AI và mô hình thống kê, với niềm đam mê dành cho thị trường tài chính và giao dịch hệ thống. Tôi mong muốn áp dụng kỹ năng lập trình và phân tích để phát triển các giải pháp dựa trên dữ liệu.
             </p>
 
             <div class="flex space-x-4">
-                <a href="#projects" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">
-                    Xem Dự Án
+                <a href="#about" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">
+                    Về Tôi
                 </a>
-                <a href="#contact" class="px-6 py-3 border border-gray-400 dark:border-gray-500 text-gray-700 dark:text-gray-300 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                    Liên Hệ
+                <a href="#projects" class="px-6 py-3 border border-gray-400 dark:border-gray-500 text-gray-700 dark:text-gray-300 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                    Xem Dự Án
                 </a>
             </div>
         </section>
 
-<!-- 2. PROJECTS SECTION -->
-        <section id="projects" class="min-h-screen flex flex-col justify-center py-20 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300 overflow-visible">
+        <!-- 1.5. ABOUT ME SECTION -->
+        <section id="about" class="min-h-screen flex flex-col justify-center py-20 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-12 flex items-center reveal delay-100">
+                <span class="text-blue-600 dark:text-blue-500 font-mono text-xl mr-2">01.</span> Về Tôi
+            </h2>
             
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8 items-stretch">               
+                <div class="md:col-span-2 edu-card reveal delay-200 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-2 hover:border-blue-500 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] relative overflow-hidden z-10 flex flex-col cursor-pointer">
+                    <div class="relative z-20 flex flex-col h-full">
+                    <div class="w-full mb-6 relative overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700" >
+                        <img src="thumbnail_png/avatar.jpg" alt="Chân dung Nguyễn Minh Mẫn" class="w-full h-auto object-cover transition-transform duration-500 hover:scale-105" >                        
+                    </div>
+                        <div class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed text-center italic mt-auto">
+                            <p>
+                                "Đam mê xây dựng các giải pháp dựa trên dữ liệu và tối ưu hóa hệ thống lõi. Không ngừng khám phá sự giao thoa giữa toán học và khoa học máy tính."
+                            </p>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="md:col-span-3 edu-card reveal delay-200 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 p-8 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-2 hover:border-blue-500 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] relative overflow-hidden z-10 flex flex-col cursor-pointer">                    
+                    <div class="relative z-20 prose prose-lg dark:prose-invert text-gray-600 dark:text-gray-400 max-w-none leading-relaxed h-full">
+                        <p>
+                            Xin chào! Tôi là Mẫn, một Nhà nghiên cứu Định lượng và Khoa học Dữ liệu với niềm đam mê giải quyết các vấn đề phức tạp thông qua lăng kính của dữ liệu và thuật toán. Hiện tại, tôi đang là sinh viên chuyên ngành Toán và Khoa học Máy tính tại Trường Đại học Khoa học Tự nhiên (HCMUS). Môi trường học thuật chuyên sâu này đã rèn luyện cho tôi tư duy logic chặt chẽ và khả năng nắm bắt các mô hình toán học phức tạp.
+                        </p>
+                        <p>
+                            Sự hứng thú lớn nhất của tôi nằm ở sự giao thoa giữa tài chính định lượng và các hệ thống thuật toán. Tôi không chỉ dừng lại ở lý thuyết; tôi liên tục tìm cách áp dụng các con số vào thực tế thông qua việc phát triển các mô hình định lượng. Hơn nữa, tôi dành nhiều thời gian nghiên cứu các hệ thống AI tiên tiến, từ các mô hình nền tảng Thị giác máy tính (Computer Vision) như DINOv3 và Mask2Former cho đến việc xây dựng các ứng dụng toàn diện (full-stack) trong hệ sinh thái .NET.
+                        </p>
+                        <p>
+                            Mục tiêu hiện tại của tôi là tìm kiếm cơ hội thực tập ở vị trí Nghiên cứu Định lượng (Quantitative Research) hoặc Kỹ sư AI (AI Engineering). Tôi luôn sẵn sàng đối mặt với những thử thách mới, tối ưu hóa các hệ thống cốt lõi và mang lại những giá trị phân tích đáng tin cậy.
+                        </p>
+                    </div>                    
+                </div>
+            </div>
+        </section>
+
+<!-- 2. PROJECTS SECTION -->
+        <section id="projects" class="min-h-screen flex flex-col justify-center py-20 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300 overflow-visible">            
             <div class="w-full mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center">
-                    <span class="text-blue-600 dark:text-blue-500 font-mono text-xl mr-2">01.</span> Dự Án Nổi Bật
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white flex items-center reveal delay-100">
+                    <span class="text-blue-600 dark:text-blue-500 font-mono text-xl mr-2">02.</span> Dự án Nổi bật
                 </h2>
             </div>
             
-            <div class="relative w-[100vw] left-1/2 -translate-x-1/2 overflow-hidden py-4">
-                
+            <div class="relative w-[100vw] left-1/2 -translate-x-1/2 overflow-hidden py-4">                
                 <div class="absolute inset-y-0 left-0 w-16 md:w-40 bg-gradient-to-r from-gray-50 dark:from-gray-900 to-transparent z-10 pointer-events-none"></div>
                 <div class="absolute inset-y-0 right-0 w-16 md:w-40 bg-gradient-to-l from-gray-50 dark:from-gray-900 to-transparent z-10 pointer-events-none"></div>
+                <div id="project-slider" class="flex overflow-x-auto hide-scrollbar cursor-grab w-full reveal delay-200">                    
+                    <!-- GROUP 1-->
+                    <div class="flex gap-8 pr-8 shrink-0 w-max">   
 
-                <div class="flex animate-marquee w-max">
-                    
-                    <!-- ========================================== -->
-                    <!-- GROUP 1: Bản gốc gồm 5 Dự Án -->
-                    <!-- ========================================== -->
-                    <div class="flex gap-8 pr-8">
-                        
                         <!-- Dự Án 1 -->
-                        <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-500 transition-colors shadow-sm dark:shadow-none whitespace-normal hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] flex flex-col">
-                            <div class="h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 relative overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                                <img src="thumbnail_png/proj1_thumb.png" alt="description" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
+                        <div class="project-card w-[320px] md:w-[400px] flex-shrink-0 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-3 hover:border-blue-500 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col cursor-pointer">
+                            <div class="relative z-20 h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 overflow-hidden border-b border-gray-200 dark:border-gray-700">
+                                <img src="thumbnail_png/proj1_thumb.png" alt="Agentic RAG System Thumbnail" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
                             </div>
-                            <div class="p-6 flex flex-col flex-grow">
+                            <div class="relative z-20 p-6 flex flex-col flex-grow">
                                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Hệ thống Agentic RAG</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    Xây dựng luồng xử lý agentic RAG với LangGraph/LangChain, cho phép truy xuất theo ngữ cảnh, ghi nhớ nhiều lượt hội thoại và nâng cao độ tin cậy thông qua guardrails.
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                                    Xây dựng luồng xử lý RAG với LangGraph/LangChain, hỗ trợ truy xuất theo ngữ cảnh, ghi nhớ trạng thái đa lượt và cải thiện độ tin cậy thông qua guardrails.
                                 </p>
-                                <div class="flex space-x-4 mt-auto">
-                                    <a href="https://github.com/nmman5404/MiniChatBot" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem Repo GitHub</a>
-                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Đọc Thêm</a>
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangGraph</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangChain</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">Python</span>
+                            </div>
+
+                                <div class="flex space-x-4">
+                                    <a href="https://github.com/nmman5404/MiniChatBot" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem GitHub</a>
+                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Dự Án 2 -->
-                        <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-500 transition-colors shadow-sm dark:shadow-none whitespace-normal hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] flex flex-col">
-                            <div class="h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 relative overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                                <img src="thumbnail_png/proj2_thumb.png" alt="description" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
+                        <div class="project-card w-[320px] md:w-[400px] flex-shrink-0 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-3 hover:border-blue-500 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col cursor-pointer">
+                            <div class="relative z-20 h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 overflow-hidden border-b border-gray-200 dark:border-gray-700">
+                                <img src="thumbnail_png/proj2_thumb.png" alt="AI-Driven Inventory Manager Thumbnail" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
                             </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Hệ thống Quản lý Tồn kho AI</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    Thiết kế hệ thống AI agent (Python, LangGraph) tích hợp với .NET thông qua Model Context Protocol (MCP), đảm bảo tính tin cậy và bảo mật với kiến trúc N-tier.
+                            <div class="relative z-20 p-6 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Quản lý Kho hàng tích hợp AI</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                                    Thiết kế hệ thống AI Agent (Python, LangGraph) kết nối với .NET thông qua giao thức MCP, đảm bảo tính ổn định và bảo mật với kiến trúc N-tier.
                                 </p>
-                                <div class="flex space-x-4 mt-auto">
-                                    <a href="https://github.com/nmman5404/MCP_Agent" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem Repo GitHub</a>
-                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Đọc Thêm</a>
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangGraph</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangChain</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">Python</span>
+                            </div>
+                                <div class="flex space-x-4">
+                                    <a href="https://github.com/nmman5404/MCP_Agent" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem GitHub</a>
+                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Dự Án 3 -->
-                        <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-500 transition-colors shadow-sm dark:shadow-none whitespace-normal hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] flex flex-col">
-                            <div class="h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 relative overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                                <img src="thumbnail_png/proj3_thumb.png" alt="description" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
+                        <div class="project-card w-[320px] md:w-[400px] flex-shrink-0 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-3 hover:border-blue-500 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col cursor-pointer">
+                            <div class="relative z-20 h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 overflow-hidden border-b border-gray-200 dark:border-gray-700">
+                                <img src="thumbnail_png/proj3_thumb.png" alt="Skin Cancer Detection Thumbnail" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
                             </div>
-                            <div class="p-6 flex flex-col flex-grow ">
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Tiếp cận Deep Learning trong Phát hiện Ung thư Da</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    Đánh giá hiệu năng 13 mô hình nhận diện trên 16.9K hình ảnh, tối ưu hóa để cải thiện chỉ số mAP@50 lên 76.2% và Recall lên 84.3%.
+                            <div class="relative z-20 p-6 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Học sâu trong Nhận diện và Phân vùng Ung thư Da</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                                    Đánh giá 13 mô hình nhận diện trên 16.9K hình ảnh, cải thiện chỉ số mAP@50 lên 76.2% và recall lên 84.3% qua các kỹ thuật tối ưu hóa.
                                 </p>
-                                <div class="flex space-x-4 mt-auto">
-                                    <a href="https://github.com/nmman5404/Deep-Learning-Approaches-for-Skin-Cancer-Detection-and-Segmentation" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem Repo GitHub</a>
-                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Đọc Thêm</a>
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangGraph</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangChain</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">Python</span>
+                            </div>
+                                <div class="flex space-x-4">
+                                    <a href="https://github.com/nmman5404/Deep-Learning-Approaches-for-Skin-Cancer-Detection-and-Segmentation" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem GitHub</a>
+                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Dự Án 4 -->
-                        <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-500 transition-colors shadow-sm dark:shadow-none whitespace-normal hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] flex flex-col">
-                            <div class="h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 relative overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                                <img src="thumbnail_png/proj4_thumb.png" alt="description" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
+                        <div class="project-card w-[320px] md:w-[400px] flex-shrink-0 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-3 hover:border-blue-500 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col cursor-pointer">
+                            <div class="relative z-20 h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 overflow-hidden border-b border-gray-200 dark:border-gray-700">
+                                <img src="thumbnail_png/proj4_thumb.png" alt="Fake News Detection Thumbnail" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
                             </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Phát hiện Tin giả với Mô hình Lai BERT-XLNet</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    Xây dựng bộ phân loại NLP kết hợp (BERT + XLNet) với cơ chế cổng động (dynamic gating), xử lý 78K+ bài báo và đạt độ chính xác 90.42%, Recall 91.63%.
+                            <div class="relative z-20 p-6 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Phát hiện Tin giả bằng Mô hình Lai BERT-XLNet</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                                    Xây dựng mô hình phân loại NLP lai (BERT + XLNet) kết hợp cơ chế cổng động, xử lý hơn 78K bài báo và đạt độ chính xác 90.42%, độ nhạy 91.63%.
                                 </p>
-                                <div class="flex space-x-4 mt-auto">
-                                    <a href="https://github.com/nmman5404/Fake-News-Detection-with-a-BERT-XLNet-Hybrid-Model" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem Repo GitHub</a>
-                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Đọc Thêm</a>
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangGraph</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangChain</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">Python</span>
+                            </div>                                
+                                <div class="flex space-x-4">
+                                    <a href="https://github.com/nmman5404/Fake-News-Detection-with-a-BERT-XLNet-Hybrid-Model" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem GitHub</a>
+                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Dự Án 5 -->
-                        <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-500 transition-colors shadow-sm dark:shadow-none whitespace-normal hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] flex flex-col">
-                            <div class="h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 relative overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                                <img src="thumbnail_png/proj5_thumb.png" alt="description" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
+                        <div class="project-card w-[320px] md:w-[400px] flex-shrink-0 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-3 hover:border-blue-500 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col cursor-pointer">
+                            <div class="relative z-20 h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 overflow-hidden border-b border-gray-200 dark:border-gray-700">
+                                <img src="thumbnail_png/proj5_thumb.png" alt="Diabetes Health Indicator Thumbnail" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
                             </div>
-                            <div class="p-6 flex flex-col flex-grow">
+                            <div class="relative z-20 p-6 flex flex-col flex-grow">
                                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Phân tích Chỉ số Sức khỏe Bệnh Tiểu đường</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    Thực hiện EDA và kiểm định thống kê trên 253K+ hồ sơ, xử lý vấn đề mất cân bằng dữ liệu và đạt độ chuẩn xác (Precision) 94.7% bằng XGBoost.
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                                    Thực hiện EDA và kiểm định thống kê trên 253K+ hồ sơ, xử lý tình trạng mất cân bằng dữ liệu và đạt precision 94.7% với thuật toán XGBoost.
                                 </p>
-                                <div class="flex space-x-4 mt-auto">
-                                    <a href="https://github.com/nmman5404/Diabetes-Health-Indicator-Analysis" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem Repo GitHub</a>
-                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Đọc Thêm</a>
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangGraph</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangChain</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">Python</span>
+                            </div>
+                                <div class="flex space-x-4">
+                                    <a href="https://github.com/nmman5404/Diabetes-Health-Indicator-Analysis" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem GitHub</a>
+                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
-
                     </div> <!-- End Group 1 -->
 
 
-                    <!-- GROUP 2: Bản sao (Bắt buộc để tạo Loop mượt mà) -->
-                    <div class="flex gap-8 pr-8" aria-hidden="true">
+                    <!-- GROUP 2: Bản sao để Loop -->
+                    <div class="flex gap-8 pr-8 shrink-0 w-max" aria-hidden="true">
                         
                         <!-- Dự Án 1 -->
-                        <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-500 transition-colors shadow-sm dark:shadow-none whitespace-normal hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] flex flex-col">
-                            <div class="h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 relative overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                                <img src="thumbnail_png/proj1_thumb.png" alt="description" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
-                                
+                        <div class="project-card w-[320px] md:w-[400px] flex-shrink-0 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-3 hover:border-blue-500 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col cursor-pointer">
+                            <div class="relative z-20 h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 overflow-hidden border-b border-gray-200 dark:border-gray-700">
+                                <img src="thumbnail_png/proj1_thumb.png" alt="Agentic RAG System Thumbnail" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
                             </div>
-                            <div class="p-6 flex flex-col flex-grow">
+                            <div class="relative z-20 p-6 flex flex-col flex-grow">
                                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Hệ thống Agentic RAG</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    Xây dựng luồng xử lý agentic RAG với LangGraph/LangChain, cho phép truy xuất theo ngữ cảnh, ghi nhớ nhiều lượt hội thoại và nâng cao độ tin cậy thông qua guardrails.
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                                    Xây dựng luồng xử lý RAG với LangGraph/LangChain, hỗ trợ truy xuất theo ngữ cảnh, ghi nhớ trạng thái đa lượt và cải thiện độ tin cậy thông qua guardrails.
                                 </p>
-                                <div class="flex space-x-4 mt-auto">
-                                    <a href="https://github.com/nmman5404/MiniChatBot" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem Repo GitHub</a>
-                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Đọc Thêm</a>
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangGraph</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangChain</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">Python</span>
+                            </div>
+
+                                <div class="flex space-x-4">
+                                    <a href="https://github.com/nmman5404/MiniChatBot" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem GitHub</a>
+                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Dự Án 2 -->
-                        <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-500 transition-colors shadow-sm dark:shadow-none whitespace-normal hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] flex flex-col">
-                            <div class="h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 relative overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                                <img src="thumbnail_png/proj2_thumb.png" alt="description" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
+                        <div class="project-card w-[320px] md:w-[400px] flex-shrink-0 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-3 hover:border-blue-500 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col cursor-pointer">
+                            <div class="relative z-20 h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 overflow-hidden border-b border-gray-200 dark:border-gray-700">
+                                <img src="thumbnail_png/proj2_thumb.png" alt="AI-Driven Inventory Manager Thumbnail" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
                             </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Hệ thống Quản lý Tồn kho AI</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    Thiết kế hệ thống AI agent (Python, LangGraph) tích hợp với .NET thông qua Model Context Protocol (MCP), đảm bảo tính tin cậy và bảo mật với kiến trúc N-tier.
+                            <div class="relative z-20 p-6 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Quản lý Kho hàng tích hợp AI</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                                    Thiết kế hệ thống AI Agent (Python, LangGraph) kết nối với .NET thông qua giao thức MCP, đảm bảo tính ổn định và bảo mật với kiến trúc N-tier.
                                 </p>
-                                <div class="flex space-x-4 mt-auto">
-                                    <a href="https://github.com/nmman5404/MCP_Agent" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem Repo GitHub</a>
-                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Đọc Thêm</a>
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangGraph</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangChain</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">Python</span>
+                            </div>
+                                <div class="flex space-x-4">
+                                    <a href="https://github.com/nmman5404/MCP_Agent" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem GitHub</a>
+                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Dự Án 3 -->
-                        <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-500 transition-colors shadow-sm dark:shadow-none whitespace-normal hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] flex flex-col">
-                            <div class="h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 relative overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                                <img src="thumbnail_png/proj3_thumb.png" alt="description" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
+                        <div class="project-card w-[320px] md:w-[400px] flex-shrink-0 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-3 hover:border-blue-500 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col cursor-pointer">
+                            <div class="relative z-20 h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 overflow-hidden border-b border-gray-200 dark:border-gray-700">
+                                <img src="thumbnail_png/proj3_thumb.png" alt="Skin Cancer Detection Thumbnail" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
                             </div>
-                            <div class="p-6 flex flex-col flex-grow ">
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Tiếp cận Deep Learning trong Phát hiện Ung thư Da</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    Đánh giá hiệu năng 13 mô hình nhận diện trên 16.9K hình ảnh, tối ưu hóa để cải thiện chỉ số mAP@50 lên 76.2% và Recall lên 84.3%.
+                            <div class="relative z-20 p-6 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Học sâu trong Nhận diện và Phân vùng Ung thư Da</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                                    Đánh giá 13 mô hình nhận diện trên 16.9K hình ảnh, cải thiện chỉ số mAP@50 lên 76.2% và recall lên 84.3% qua các kỹ thuật tối ưu hóa.
                                 </p>
-                                <div class="flex space-x-4 mt-auto">
-                                    <a href="https://github.com/nmman5404/Deep-Learning-Approaches-for-Skin-Cancer-Detection-and-Segmentation" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem Repo GitHub</a>
-                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Đọc Thêm</a>
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangGraph</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangChain</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">Python</span>
+                            </div>
+                                <div class="flex space-x-4">
+                                    <a href="https://github.com/nmman5404/Deep-Learning-Approaches-for-Skin-Cancer-Detection-and-Segmentation" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem GitHub</a>
+                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Dự Án 4 -->
-                        <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-500 transition-colors shadow-sm dark:shadow-none whitespace-normal hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] flex flex-col">
-                            <div class="h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 relative overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                                <img src="thumbnail_png/proj4_thumb.png" alt="description" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
+                        <div class="project-card w-[320px] md:w-[400px] flex-shrink-0 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-3 hover:border-blue-500 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col cursor-pointer">
+                            <div class="relative z-20 h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 overflow-hidden border-b border-gray-200 dark:border-gray-700">
+                                <img src="thumbnail_png/proj4_thumb.png" alt="Fake News Detection Thumbnail" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
                             </div>
-                            <div class="p-6 flex flex-col flex-grow">
-                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Phát hiện Tin giả với Mô hình Lai BERT-XLNet</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    Xây dựng bộ phân loại NLP kết hợp (BERT + XLNet) với cơ chế cổng động (dynamic gating), xử lý 78K+ bài báo và đạt độ chính xác 90.42%, Recall 91.63%.
+                            <div class="relative z-20 p-6 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Phát hiện Tin giả bằng Mô hình Lai BERT-XLNet</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                                    Xây dựng mô hình phân loại NLP lai (BERT + XLNet) kết hợp cơ chế cổng động, xử lý hơn 78K bài báo và đạt độ chính xác 90.42%, độ nhạy 91.63%.
                                 </p>
-                                <div class="flex space-x-4 mt-auto">
-                                    <a href="https://github.com/nmman5404/Fake-News-Detection-with-a-BERT-XLNet-Hybrid-Model" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem Repo GitHub</a>
-                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Đọc Thêm</a>
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangGraph</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangChain</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">Python</span>
+                            </div>                                
+                                <div class="flex space-x-4">
+                                    <a href="https://github.com/nmman5404/Fake-News-Detection-with-a-BERT-XLNet-Hybrid-Model" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem GitHub</a>
+                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Dự Án 5 -->
-                        <div class="w-[320px] md:w-[400px] flex-shrink-0 bg-white dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-blue-600 dark:hover:border-blue-500 transition-colors shadow-sm dark:shadow-none whitespace-normal hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] flex flex-col">
-                            <div class="h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 relative overflow-hidden border-b border-gray-200 dark:border-gray-700">
-                                <img src="thumbnail_png/proj5_thumb.png" alt="description" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
+                        <div class="project-card w-[320px] md:w-[400px] flex-shrink-0 bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/50 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-3 hover:border-blue-500 hover:shadow-[0_0_25px_rgba(59,130,246,0.3)] flex flex-col cursor-pointer">
+                            <div class="relative z-20 h-48 w-full bg-gray-100 dark:bg-gray-800 shrink-0 overflow-hidden border-b border-gray-200 dark:border-gray-700">
+                                <img src="thumbnail_png/proj5_thumb.png" alt="Diabetes Health Indicator Thumbnail" class="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-110">
                             </div>
-                            <div class="p-6 flex flex-col flex-grow">
+                            <div class="relative z-20 p-6 flex flex-col flex-grow">
                                 <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Phân tích Chỉ số Sức khỏe Bệnh Tiểu đường</h3>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    Thực hiện EDA và kiểm định thống kê trên 253K+ hồ sơ, xử lý vấn đề mất cân bằng dữ liệu và đạt độ chuẩn xác (Precision) 94.7% bằng XGBoost.
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                                    Thực hiện EDA và kiểm định thống kê trên 253K+ hồ sơ, xử lý tình trạng mất cân bằng dữ liệu và đạt precision 94.7% với thuật toán XGBoost.
                                 </p>
-                                <div class="flex space-x-4 mt-auto">
-                                    <a href="https://github.com/nmman5404/Diabetes-Health-Indicator-Analysis" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem Repo GitHub</a>
-                                    <a href="blog_template.htmls" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Đọc Thêm</a>
+                            <div class="flex flex-wrap gap-2 mb-6 mt-auto">
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangGraph</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">LangChain</span>
+                                <span class="px-3 py-1 bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 rounded-full text-xs font-semibold">Python</span>
+                            </div>
+                                <div class="flex space-x-4">
+                                    <a href="https://github.com/nmman5404/Diabetes-Health-Indicator-Analysis" target="_blank" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">Xem GitHub</a>
+                                    <a href="blog_template.html" class="px-5 py-2 border border-gray-400 dark:border-gray-500 hover:border-gray-900 dark:hover:border-white hover:text-gray-900 dark:hover:text-white text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
+
+                    </div> <!-- END GROUP 2 -->
 
                     </div> 
                 </div>
@@ -313,61 +498,60 @@
 
         <!-- 3. SKILLS SECTION -->
         <section id="skills" class="min-h-screen flex flex-col justify-center py-20 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-12 flex items-center">
-                <span class="text-blue-600 dark:text-blue-500 font-mono text-xl mr-2">02.</span> Kỹ Năng & Công Nghệ
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-12 flex items-center reveal delay-100">
+                <span class="text-blue-600 dark:text-blue-500 font-mono text-xl mr-2">03.</span> Kỹ năng & Công nghệ
             </h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm dark:shadow-none hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+            <div id="skills-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 reveal delay-150">
+                <div class="skill-card bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/80 p-6 rounded-xl border border-gray-100 dark:border-gray-700/50 shadow-sm backdrop-blur-sm group relative overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 z-10">                    
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
                         AI & Học Máy
                     </h3>
-                    <div class="flex flex-wrap gap-2">
-                        <!-- Thẻ Kỹ Năng -->
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">PyTorch</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">TensorFlow</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">LangChain</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">LangGraph</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">Hugging Face</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">scikit-learn</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">XGBoost</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">OpenCV</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">MMDetection</span>
+                    <div class="flex flex-wrap gap-2 reveal delay-200">
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">PyTorch</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">TensorFlow</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">LangChain</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">LangGraph</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">Hugging Face</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">scikit-learn</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">XGBoost</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">OpenCV</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">MMDetection</span>
                     </div>
                 </div>
 
 
-                <div class="bg-white dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm dark:shadow-none hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                <div class="skill-card bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/80 p-6 rounded-xl border border-gray-100 dark:border-gray-700/50 shadow-sm backdrop-blur-sm group relative overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 z-10">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path></svg>
                         Dữ liệu & Cơ sở dữ liệu
                     </h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">PostgreSQL</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">MS SQL</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">MongoDB</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">NumPy</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">Pandas</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">Matplotlib</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">Seaborn</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">Power BI</span>
+                    <div class="flex flex-wrap gap-2 reveal delay-300">
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">PostgreSQL</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">MS SQL</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">MongoDB</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">NumPy</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">Pandas</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">Matplotlib</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">Seaborn</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">Power BI</span>
                     </div>
                 </div>
 
 
-                <div class="bg-white dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm dark:shadow-none hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                <div class="skill-card bg-slate-50/90 backdrop-blur-md dark:bg-gray-800/80 p-6 rounded-xl border border-gray-100 dark:border-gray-700/50 shadow-sm backdrop-blur-sm group relative overflow-hidden transition-transform duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/10 z-10">
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
                         Lập trình & Công cụ
                     </h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">Python</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">R</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">.NET / ASP.NET</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">Linux CLI</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">ChatGPT / Gemini / Claude</span>
-                        <span class="px-3 py-1.5 bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-500 dark:hover:border-blue-500 transition-colors cursor-default">English (TOEIC: 940)</span>
+                    <div class="flex flex-wrap gap-2 reveal delay-400">
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">Python</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">R</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">.NET / ASP.NET</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">Linux CLI</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">ChatGPT / Gemini / Claude</span>
+                        <span class="px-3 py-1.5 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-blue-50 dark:hover:bg-gray-800 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-400 hover:shadow-[0_0_12px_rgba(59,130,246,0.4)] cursor-default">English (TOEIC: 940)</span>
                     </div>
                 </div>
 
@@ -376,58 +560,55 @@
 
 <!-- 4. EDUCATION & EXPERIENCE SECTION -->
         <section id="experience" class="min-h-screen flex flex-col justify-center py-20 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
-            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-12 flex items-center">
-                <span class="text-blue-600 dark:text-blue-500 font-mono text-xl mr-2">03.</span> Học Vấn & Kinh Nghiệm
+            <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-12 flex items-center reveal delay-100">
+                <span class="text-blue-600 dark:text-blue-500 font-mono text-xl mr-2">04.</span> Học vấn & Kinh nghiệm
             </h2>
-            <h3 class="text-xl font-bold text-gray-700 dark:text-gray-300 mb-6 font-mono border-l-4 border-blue-500 pl-3">/ Học Vấn</h3>
+            <h3 class="text-xl font-bold text-gray-700 dark:text-gray-300 mb-6 font-mono border-l-4 border-blue-500 pl-3 reveal delay-100">/ Học vấn</h3>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-                <div class="bg-white dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm dark:shadow-none hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
-                    <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20 reveal delay-150">
+                <div class="edu-card bg-slate-50/90 backdrop-blur-md reveal delay-200 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-2 hover:border-blue-500 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] relative overflow-hidden cursor-pointer z-10">
+                    <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:scale-110">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"></path><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
                     </div>
-                    <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Cử nhân Toán & Khoa học Máy tính</h4>
+                    <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Cử nhân Toán học và Khoa học Máy tính</h4>
                     <p class="text-sm text-blue-600 dark:text-blue-400 font-medium mb-3">Chuyên ngành Khoa học Dữ liệu</p>
                     <p class="text-sm text-gray-600 dark:text-gray-400">Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM.<br>10/2022 - 10/2026</p>
                 </div>
 
-
-                <div class="bg-white dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm dark:shadow-none hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
-                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center mb-4">
+                <div class="edu-card bg-slate-50/90 backdrop-blur-md reveal delay-300 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-2 hover:border-blue-500 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] relative overflow-hidden cursor-pointer z-10">
+                    <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:scale-110">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path></svg>
                     </div>
                     <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">GPA: 8.85 / 10 <span class="text-sm font-normal text-gray-500">(Dự kiến 9.02)</span></h4>
                     <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-2 list-disc list-inside">
                         <li>Học bổng Khuyến khích Học tập 3 học kỳ (Top 5%).</li>
-                        <li>Khóa luận: Phân vùng Ngữ nghĩa các Vật thể Y tế trong Môi trường Bệnh viện.</li>
+                        <li>Khóa luận: Phân vùng Ngữ nghĩa các Đối tượng Bệnh viện trong Môi trường Y tế Trong nhà.</li>
                     </ul>
                 </div>
 
-
-                <div class="bg-white dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm dark:shadow-none hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
-                    <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-lg flex items-center justify-center mb-4">
+                <div class="edu-card bg-slate-50/90 backdrop-blur-md reveal delay-400 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:-translate-y-2 hover:border-blue-500 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] relative overflow-hidden cursor-pointer z-10">
+                    <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 hover:scale-110">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
                     </div>
-                    <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Chứng Chỉ & Giải Thưởng</h4>
+                    <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Chứng chỉ & Giải thưởng</h4>
                     <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
                         <li><span class="font-semibold text-gray-800 dark:text-gray-200">Google:</span> AI Essentials, Data Analytics, Gemini Certified Educator.</li>
-                        <li><span class="font-semibold text-gray-800 dark:text-gray-200">Tiếng Anh:</span> TOEIC (LR: 940, SW: 320).</li>
-                        <li><span class="font-semibold text-gray-800 dark:text-gray-200">Học thuật:</span> Học sinh Giỏi cấp Tỉnh (Địa lý - 2022).</li>
+                        <li><span class="font-semibold text-gray-800 dark:text-gray-200">English:</span> TOEIC (LR: 940, SW: 320).</li>
+                        <li><span class="font-semibold text-gray-800 dark:text-gray-200">Học thuật:</span> Học sinh Giỏi cấp Tỉnh (Môn Địa lý - 2022).</li>
                     </ul>
                 </div>
             </div>
 
-            <h3 class="text-xl font-bold text-gray-700 dark:text-gray-300 mb-12 font-mono border-l-4 border-blue-500 pl-3">/ Kinh Nghiệm Làm Việc</h3>
-            <div class="relative w-full pb-32 pt-10">
+            <h3 class="text-xl font-bold text-gray-700 dark:text-gray-300 mb-12 font-mono border-l-4 border-blue-500 pl-3 reveal delay-100">/ Kinh nghiệm Làm việc</h3>
+            <div class="relative w-full pb-32 pt-10 reveal delay-150">
                 <div class="absolute top-[52px] left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 rounded-full z-0"></div>
                 <div class="relative flex justify-between w-full z-10">
                     
                     <div class="relative group cursor-pointer flex flex-col items-center flex-1">
                         <div class="w-6 h-6 bg-white dark:bg-gray-900 border-4 border-gray-300 dark:border-gray-600 rounded-full group-hover:border-blue-500 group-hover:bg-blue-100 dark:group-hover:bg-blue-900 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.6)] transition-all duration-300"></div>
-                        <div class="mt-4 font-bold text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">2022</div>
-                        
+                        <div class="mt-4 font-bold text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">2022</div>                        
                         <div class="absolute top-16 left-1/2 -translate-x-1/2 w-60 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-20 text-center transform translate-y-2 group-hover:translate-y-0">
-                            <h4 class="font-bold text-blue-600 dark:text-blue-400">Nhân Viên Phục Vụ</h4>
+                            <h4 class="font-bold text-blue-600 dark:text-blue-400">Nhân viên Dịch vụ</h4>
                             <p class="text-xs text-gray-500 mb-2">07/2022 - 02/2024</p>
                             <p class="text-sm text-gray-800 dark:text-gray-200 font-semibold">Alagon Saigon Hotel & Spa</p>
                             <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Pha chế, Phục vụ, Thu ngân</p>
@@ -437,10 +618,9 @@
 
                     <div class="relative group cursor-pointer flex flex-col items-center flex-1">
                         <div class="w-6 h-6 bg-white dark:bg-gray-900 border-4 border-gray-300 dark:border-gray-600 rounded-full group-hover:border-blue-500 group-hover:bg-blue-100 dark:group-hover:bg-blue-900 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.6)] transition-all duration-300"></div>
-                        <div class="mt-4 font-bold text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">2023</div>
-                        
+                        <div class="mt-4 font-bold text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">2023</div>                        
                         <div class="absolute top-16 left-1/2 -translate-x-1/2 w-60 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-20 text-center transform translate-y-2 group-hover:translate-y-0">
-                            <h4 class="font-bold text-blue-600 dark:text-blue-400">Giáo Viên Toán & Khoa Học</h4>
+                            <h4 class="font-bold text-blue-600 dark:text-blue-400">Giáo viên Toán & Khoa học</h4>
                             <p class="text-xs text-gray-500 mb-2">08/2023 - Hiện tại</p>
                             <p class="text-sm text-gray-800 dark:text-gray-200 font-semibold">Nga Nguyen Edu & Training</p>
                             <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Giảng dạy học sinh từ lớp 6 đến lớp 12.</p>
@@ -450,26 +630,24 @@
 
                     <div class="relative group cursor-pointer flex flex-col items-center flex-1">
                         <div class="w-6 h-6 bg-white dark:bg-gray-900 border-4 border-gray-300 dark:border-gray-600 rounded-full group-hover:border-blue-500 group-hover:bg-blue-100 dark:group-hover:bg-blue-900 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.6)] transition-all duration-300"></div>
-                        <div class="mt-4 font-bold text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">2024</div>
-                        
-                        <div class="absolute top-16 left-1/2 -translate-x-1/2 w-60 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-20 text-center transform translate-y-2 group-hover:translate-y-0">
-                            <h4 class="font-bold text-blue-600 dark:text-blue-400">Gia Sư Toán & Tin Học</h4>
+                        <div class="mt-4 font-bold text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">2024</div>                        
+                        <div class="absolute top-16 left-1/2 -translate-x-1/2 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-20 text-center transform translate-y-2 group-hover:translate-y-0">
+                            <h4 class="font-bold text-blue-600 dark:text-blue-400">Gia sư Toán & Tin học</h4>
                             <p class="text-xs text-gray-500 mb-2">07/2024 - Hiện tại</p>
                             <p class="text-sm text-gray-800 dark:text-gray-200 font-semibold">Trang Luong Academy</p>
-                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Giảng dạy tư duy toán học và kỹ năng giải quyết vấn đề, DSA.</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Giảng dạy tư duy toán học, kỹ năng giải quyết vấn đề và Cấu trúc Dữ liệu & Giải thuật (DSA).</p>
                         </div>
                     </div>
 
 
                     <div class="relative group cursor-pointer flex flex-col items-center flex-1">
                         <div class="w-6 h-6 bg-white dark:bg-gray-900 border-4 border-gray-300 dark:border-gray-600 rounded-full group-hover:border-blue-500 group-hover:bg-blue-100 dark:group-hover:bg-blue-900 group-hover:scale-125 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.6)] transition-all duration-300"></div>
-                        <div class="mt-4 font-bold text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">2025</div>
-                        
+                        <div class="mt-4 font-bold text-gray-500 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">2025</div>                        
                         <div class="absolute top-16 left-1/2 -translate-x-1/2 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-20 text-center transform translate-y-2 group-hover:translate-y-0">
-                            <h4 class="font-bold text-blue-600 dark:text-blue-400">Chuyên Viên Gán Nhãn Dữ Liệu</h4>
+                            <h4 class="font-bold text-blue-600 dark:text-blue-400">Chuyên viên Gán nhãn Dữ liệu</h4>
                             <p class="text-xs text-gray-500 mb-2">02/2025 - Hiện tại</p>
                             <p class="text-sm text-gray-800 dark:text-gray-200 font-semibold">Scale AI (Outlier Platform)</p>
-                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Đánh giá mô hình AI và xử lý dữ liệu RLHF.</p>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Đánh giá các mô hình AI và xử lý dữ liệu RLHF.</p>
                         </div>
                     </div>
 
@@ -485,38 +663,44 @@
 
 <!-- 5. CONTACT ME SECTION -->
         <section id="contact" class="min-h-screen flex flex-col justify-center items-center py-20 transition-colors duration-300">
-            <h2 class="text-blue-600 dark:text-blue-500 font-mono text-lg mb-4">04. Tiếp Theo Là Gì?</h2>
-            <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 text-center">Kết Nối Với Tôi!</h2>
-            <p class="text-gray-600 dark:text-gray-400 text-center max-w-lg mb-10 leading-relaxed">
-                Hộp thư của tôi luôn mở. Tôi sẽ cố gắng phản hồi bạn sớm nhất có thể.
+            <h2 class="text-blue-600 dark:text-blue-500 font-mono text-lg mb-4 reveal delay-100">05. Liên hệ</h2>
+
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-8 text-center reveal delay-150 flex items-center justify-center flex-wrap min-h-[80px] md:min-h-[60px]">
+                <span class="mr-3">Cùng nhau</span>
+                <span id="contact-rotating-text" class="text-blue-600 dark:text-blue-500"></span>
+                <span id="contact-cursor" class="cursor-blink inline-block w-[3px] h-[1em] bg-blue-600 dark:bg-blue-500 ml-1"></span>
+            </h2>
+
+            <p class="text-gray-600 reveal delay-400 dark:text-gray-400 text-center max-w-lg mb-10 leading-relaxed">
+                Hộp thư của tôi luôn mở. Tôi sẽ cố gắng phản hồi bạn trong thời gian sớm nhất.
             </p>
             
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="mailto:nmm5404ft.thpttv@gmail.com" target="_blank" class="px-8 py-3 border border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]">
-                    Gửi Email
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-6 mt-10 reveal delay-300">
+                <a href="mailto:nmm5404ft.thpttv@gmail.com" class="btn-glow-primary group relative px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-lg border-2 border-blue-400 transition-all duration-300 hover:-translate-y-2 flex items-center justify-center w-full sm:w-auto overflow-hidden">
+                    <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>                    
+                    <svg class="w-6 h-6 mr-3 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span class="relative z-10">Gửi Email</span>
                 </a>
 
-                <a href="https://www.linkedin.com/in/nguyenminhman544/" target="_blank" class="px-8 py-3 border border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]">
+                <a href="https://www.linkedin.com/in/nguyenminhman544/" target="_blank" class="btn-glow-secondary group px-8 py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm text-gray-900 dark:text-white rounded-xl font-semibold text-lg border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 transition-all duration-300 hover:-translate-y-2 flex items-center justify-center w-full sm:w-auto">
+                    <svg class="w-6 h-6 mr-3 text-[#0A66C2] dark:text-blue-400 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                     LinkedIn
                 </a>
 
-                <a href="https://github.com/nmman5404" target="_blank" class="px-8 py-3 border border-gray-400 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]">
+                <a href="https://github.com/nmman5404" target="_blank" class="btn-glow-secondary group px-8 py-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm text-gray-900 dark:text-white rounded-xl font-semibold text-lg border-2 border-gray-300 dark:border-gray-600 hover:border-blue-500 transition-all duration-300 hover:-translate-y-2 flex items-center justify-center w-full sm:w-auto">
+                    <svg class="w-6 h-6 mr-3 text-gray-900 dark:text-white group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     GitHub
                 </a>
+
             </div>
         </section>
 
     </main>
 
-    <!-- ========================================== -->
-    <!-- GIAO DIỆN CHATBOT VỚI AI (GEMINI)          -->
-    <!-- ========================================== -->
+    <!-- CHATBOT (GEMINI) -->
 
-    <!-- Nút Mở/Đóng Chat nổi ở góc phải dưới -->
     <button id="chat-toggle-btn" class="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg hover:shadow-blue-500/50 flex items-center justify-center transition-all duration-300 hover:-translate-y-1 z-[60]">
-        <!-- Icon Chat Bubble -->
         <svg id="chat-icon-open" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
-        <!-- Icon Close (X) ẩn mặc định -->
         <svg id="chat-icon-close" class="w-6 h-6 absolute transition-transform duration-300 scale-0 opacity-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
     </button>
 
@@ -537,15 +721,18 @@
             </button>
         </div>
 
-        <!-- Khung chứa nội dung tin nhắn -->
         <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-4 bg-white dark:bg-gray-800 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
-            <!-- Tin nhắn được render bằng JS -->
+            <div class="flex justify-start">
+                <div class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-2xl rounded-tl-sm px-4 py-2 max-w-[85%] text-sm shadow-sm">
+                    Xin chào! Tôi là trợ lý AI. Hãy thoải mái hỏi tôi bất kỳ điều gì về kỹ năng, dự án hoặc kinh nghiệm của Mẫn nhé! 😊
+                </div>
+            </div>
+            
         </div>
 
-        <!-- Vùng nhập tin nhắn -->
         <div class="p-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 rounded-b-2xl">
             <div class="relative flex items-center">
-                <input type="text" id="chat-input" placeholder="Hỏi tôi bất cứ điều gì..." class="w-full pl-4 pr-12 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white transition-shadow" autocomplete="off" onkeypress="if(event.key === 'Enter') sendChatMessage()">
+                <input type="text" id="chat-input" placeholder="Hỏi tôi điều gì đó..." class="w-full pl-4 pr-12 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white transition-shadow" autocomplete="off">
                 <button id="chat-send-btn" onclick="sendChatMessage()" class="absolute right-2 w-8 h-8 flex items-center justify-center text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                 </button>
@@ -561,8 +748,8 @@
 </body>
 
 <script>
-    var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-    var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
     function updateIcon() {
         if (document.documentElement.classList.contains('dark')) {
@@ -573,16 +760,20 @@
             themeToggleDarkIcon.classList.remove('hidden');
         }
     }
-
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
     updateIcon();
 
-    var themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleBtn = document.getElementById('theme-toggle');
     themeToggleBtn.addEventListener('click', function() {
+        if (!document.startViewTransition) {
+            toggleTheme();
+            return;
+        }
+        document.startViewTransition(() => {
+            toggleTheme();
+        });
+    });
+
+    function toggleTheme() {
         if (document.documentElement.classList.contains('dark')) {
             document.documentElement.classList.remove('dark');
             localStorage.setItem('color-theme', 'light');
@@ -591,10 +782,9 @@
             localStorage.setItem('color-theme', 'dark');
         }
         updateIcon();
-    });
+    }
 
-    
-    var langSwitchBtn = document.getElementById('lang-switch');
+    const langSwitchBtn = document.getElementById('lang-switch');
     if (langSwitchBtn) {
         langSwitchBtn.addEventListener('click', function() {
             sessionStorage.setItem('scrollPosition', window.scrollY);
@@ -602,13 +792,10 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        var savedPos = sessionStorage.getItem('scrollPosition');
+        const savedPos = sessionStorage.getItem('scrollPosition');
         if (savedPos !== null) {
-            // 1. Cuộn ngay lập tức trong lúc nội dung đang tàng hình
             window.scrollTo({ top: parseInt(savedPos), behavior: 'instant' });
             sessionStorage.removeItem('scrollPosition');
-            
-            // 2. Cho phần body hiện hình trở lại một cách mượt mà
             setTimeout(function() {
                 document.body.style.transition = 'opacity 0.3s ease-in-out';
                 document.documentElement.classList.remove('is-switching');
@@ -616,8 +803,8 @@
         }
     });
 
-// ==========================================
-    // 4. XỬ LÝ LOGIC AI CHAT WIDGET (CACHE, RESET & COUNTDOWN)
+    // ==========================================
+    // 4. AI CHAT WIDGET LOGIC
     // ==========================================
     const chatToggleBtn = document.getElementById('chat-toggle-btn');
     const chatCloseBtn = document.getElementById('chat-close-btn');
@@ -629,31 +816,26 @@
     const chatWarning = document.getElementById('chat-warning');
 
     let isChatOpen = false;
-    let countdownInterval; // Biến lưu bộ đếm thời gian
+    let countdownInterval;
 
-    // CẤU HÌNH BẢO MẬT & THỜI GIAN
     const MAX_MESSAGES = 10;
-    const COOLDOWN_MS = 3000; // 3 giây giữa 2 tin nhắn
-    const SESSION_TIMEOUT_MS = 15 * 60 * 1000; // 15 phút
+    const COOLDOWN_MS = 3000; 
+    const SESSION_TIMEOUT_MS = 15 * 60 * 1000; 
 
-    // 1. KIỂM TRA HẠN SỬ DỤNG CỦA TRÍ NHỚ
     const now = Date.now();
     let lastActivity = parseInt(localStorage.getItem('aiLastActivity') || '0');
 
     if (lastActivity !== 0 && (now - lastActivity > SESSION_TIMEOUT_MS)) {
-        // Đã quá 15 phút -> Xóa trí nhớ cũ để tạo Session mới
         localStorage.removeItem('aiMessageCount');
         localStorage.removeItem('aiChatHistory');
         localStorage.removeItem('aiLastActivity');
         localStorage.removeItem('aiLastMessageTime');
     }
 
-    // 2. KHỞI TẠO BIẾN TỪ LOCAL STORAGE
     let messageCount = parseInt(localStorage.getItem('aiMessageCount') || '0');
     let lastMessageTime = parseInt(localStorage.getItem('aiLastMessageTime') || '0');
     let chatHistory = JSON.parse(localStorage.getItem('aiChatHistory') || '[]');
 
-    // HÀM ĐẾM NGƯỢC THỜI GIAN THỰC (REAL-TIME COUNTDOWN)
     function startSpamCountdown() {
         if (countdownInterval) clearInterval(countdownInterval);
         
@@ -666,7 +848,6 @@
             const timeLeft = SESSION_TIMEOUT_MS - timePassed;
 
             if (timeLeft <= 0) {
-                // Hết thời gian phạt -> Tự động mở khóa
                 clearInterval(countdownInterval);
                 messageCount = 0;
                 localStorage.removeItem('aiMessageCount');
@@ -677,30 +858,26 @@
                 chatWarning.classList.add('text-green-500');
                 chatWarning.innerText = "Hệ thống đã làm mới. Bạn có thể tiếp tục trò chuyện!";
                 
-                // Ẩn thông báo sau 4 giây
                 setTimeout(() => {
                     chatWarning.classList.add('hidden');
                     chatWarning.classList.remove('text-green-500');
-                    chatWarning.classList.add('text-red-500'); // Trả lại màu đỏ mặc định
+                    chatWarning.classList.add('text-red-500'); 
                 }, 4000);
             } else {
-                // Quy đổi mili-giây ra Phút và Giây
                 const m = Math.floor(timeLeft / 60000);
                 const s = Math.floor((timeLeft % 60000) / 1000);
-                chatWarning.innerText = `Bạn đã đạt giới hạn 10 tin nhắn. Vui lòng đợi ${m} phút ${s} giây để làm mới.`;
+                chatWarning.innerText = `Đã đạt giới hạn 10 tin nhắn. Vui lòng đợi ${m}phút ${s}giây để đặt lại.`;
             }
         };
 
-        tick(); // Chạy ngay lập tức lần đầu tiên để không bị delay 1s
+        tick(); 
         countdownInterval = setInterval(tick, 1000);
     }
 
-    // Tự động kiểm tra và chạy đếm ngược nếu người dùng F5 trong lúc đang bị khóa
     if (messageCount >= MAX_MESSAGES && lastActivity !== 0 && (Date.now() - lastActivity <= SESSION_TIMEOUT_MS)) {
         startSpamCountdown();
     }
 
-    // Hàm Mở/Đóng cửa sổ Chat
     function toggleChat() {
         isChatOpen = !isChatOpen;
         if (isChatOpen) {
@@ -708,7 +885,7 @@
             chatIconOpen.classList.add('scale-0', 'opacity-0');
             chatIconClose.classList.remove('scale-0', 'opacity-0');
             chatInput.focus();
-            chatMessages.scrollTop = chatMessages.scrollHeight; // Cuộn xuống cuối
+            chatMessages.scrollTop = chatMessages.scrollHeight; 
         } else {
             chatWindow.classList.add('translate-y-10', 'opacity-0', 'pointer-events-none');
             chatIconOpen.classList.remove('scale-0', 'opacity-0');
@@ -719,7 +896,10 @@
     chatToggleBtn.addEventListener('click', toggleChat);
     chatCloseBtn.addEventListener('click', toggleChat);
 
-    // 3. HỆ THỐNG RENDER & LƯU LỊCH SỬ CHAT
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendChatMessage();
+    });
+
     function renderMessage(text, sender) {
         const msgDiv = document.createElement('div');
         msgDiv.className = sender === 'user' ? 'flex justify-end' : 'flex justify-start';
@@ -738,7 +918,6 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Xóa tin nhắn cứng trong file HTML & Load lịch sử
     chatMessages.innerHTML = ''; 
     if (chatHistory.length === 0) {
         const welcomeText = "Xin chào! Tôi là trợ lý AI. Hãy thoải mái hỏi tôi bất kỳ điều gì về kỹ năng, dự án hoặc kinh nghiệm của Mẫn nhé! 😊";
@@ -753,10 +932,9 @@
         chatHistory.push({ text, sender });
         localStorage.setItem('aiChatHistory', JSON.stringify(chatHistory));
         localStorage.setItem('aiLastActivity', Date.now()); 
-        lastActivity = Date.now(); // Cập nhật biến global cho hàm đếm ngược
+        lastActivity = Date.now(); 
     }
 
-    // 4. HIỆU ỨNG TYPING
     function showTypingIndicator() {
         const msgDiv = document.createElement('div');
         msgDiv.id = 'typing-indicator';
@@ -777,20 +955,17 @@
         if (indicator) indicator.remove();
     }
 
-    // 5. GỬI TIN NHẮN (GỌI API)
     async function sendChatMessage() {
         const text = chatInput.value.trim();
         if (!text) return;
 
         const currentTime = Date.now();
 
-        // Cập nhật: Kiểm tra Spam Limit và kích hoạt đếm ngược
         if (messageCount >= MAX_MESSAGES) {
             startSpamCountdown();
             return;
         }
 
-        // Kiểm tra Cooldown 3 giây
         if (currentTime - lastMessageTime < COOLDOWN_MS) {
             chatWarning.innerText = "Vui lòng đợi 3 giây trước khi gửi tin nhắn tiếp theo.";
             chatWarning.classList.remove('hidden');
@@ -824,7 +999,7 @@
             if (response.ok) {
                 addAndSaveMessage(data.reply, 'bot');
             } else {
-                addAndSaveMessage("Xin lỗi, tôi đang gặp sự cố kết nối với máy chủ ngay lúc này.", 'bot');
+                addAndSaveMessage("Xin lỗi, hiện tại tôi đang gặp sự cố khi kết nối với máy chủ.", 'bot');
             }
         } catch (error) {
             console.error(error);
@@ -835,5 +1010,198 @@
             chatInput.focus();
         }
     }
+
+    // 5. XỬ LÝ KÉO THẢ & AUTO-SCROLL DỰ ÁN
+    let sliderWidth;
+    const slider = document.getElementById('project-slider');
+    let isDown = false;
+    let startX;
+    let scrollLeftPosSlider;
+    let isHoveredSlider = false;
+    let animationId;
+
+    const autoScrollSpeed = 1.5; 
+
+    function autoScrollSlider() {
+        if (!isHoveredSlider && !isDown) {
+            slider.scrollLeft += autoScrollSpeed;
+            if (slider.scrollLeft >= slider.scrollWidth / 2) {
+                slider.scrollLeft = 0;
+            }
+        }
+        animationId = requestAnimationFrame(autoScrollSlider);
+    }
+
+    autoScrollSlider();
+
+    slider.addEventListener('mouseenter', () => isHoveredSlider = true);
+    slider.addEventListener('mouseleave', () => {
+        isHoveredSlider = false;
+        isDown = false;
+        slider.classList.remove('cursor-grabbing');
+    });
+
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('cursor-grabbing');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeftPosSlider = slider.scrollLeft;
+        sliderWidth = slider.scrollWidth; 
+        cancelAnimationFrame(animationId); 
+    });
+
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.classList.remove('cursor-grabbing');
+        animationId = requestAnimationFrame(autoScrollSlider);
+    });
+
+    slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault(); 
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 1.5; 
+        slider.scrollLeft = scrollLeftPosSlider - walk;
+
+        if (slider.scrollLeft >= sliderWidth / 2) {
+            slider.scrollLeft -= sliderWidth / 2;
+            startX = e.pageX - slider.offsetLeft; 
+            scrollLeftPosSlider = slider.scrollLeft;
+        } else if (slider.scrollLeft <= 0) {
+            slider.scrollLeft += sliderWidth / 2;
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeftPosSlider = slider.scrollLeft;
+        }
+    });
+
+    slider.addEventListener('touchstart', () => isHoveredSlider = true, {passive: true});
+    slider.addEventListener('touchend', () => {
+        isHoveredSlider = false;
+    }, {passive: true});
+
+
+    // 6. HIỆU ỨNG SPOTLIGHT CHO SKILLS & PROJECTS, Education
+    const spotlightCards = document.querySelectorAll('.skill-card, .project-card, .edu-card');
+
+    spotlightCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
+
+    // 7. HIỆU ỨNG GÕ CHỮ (TÊN) VÀ XOAY VÒNG CHỨC DANH
+    const nameElement = document.getElementById('typewriter-name');
+    const nameText = "Nguyễn Minh Mẫn";
+    let nameIndex = 0;
+
+    const roles = ["Nhà nghiên cứu Định lượng", "Nhà khoa học Dữ liệu", "Kỹ sư Dữ liệu"];
+    const roleElement = document.getElementById('rotating-text');
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeWriterName() {
+        if (nameIndex < nameText.length) {
+            nameElement.innerHTML += nameText.charAt(nameIndex);
+            nameIndex++;
+            setTimeout(typeWriterName, 70); 
+        } else {
+            document.getElementById('name-cursor').classList.add('hidden');
+            document.getElementById('role-cursor').classList.remove('hidden');
+            setTimeout(rotateRoles, 500); 
+        }
+    }
+
+    function rotateRoles() {
+        const currentRole = roles[roleIndex];
+        if (isDeleting) {
+            roleElement.textContent = currentRole.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            roleElement.textContent = currentRole.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        let typeSpeed = isDeleting ? 50 : 100;
+
+        if (!isDeleting && charIndex === currentRole.length) {
+            typeSpeed = 1500;
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            roleIndex = (roleIndex + 1) % roles.length;
+            typeSpeed = 500; 
+        }
+
+        setTimeout(rotateRoles, typeSpeed);
+    }
+
+    // 8. SCROLL REVEAL (FADE-IN / FADE-OUT KHI CUỘN)
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealOptions = {
+        threshold: 0.15, 
+        rootMargin: "0px 0px -50px 0px" 
+    };
+
+    const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                entry.target.classList.remove('active');
+            }
+        });
+    }, revealOptions);
+
+    revealElements.forEach(el => {
+        revealOnScroll.observe(el);
+    });
+
+    window.addEventListener('load', typeWriterName);
+
+    // 9. HIỆU ỨNG XOAY VÒNG CHỮ PHẦN LIÊN HỆ
+    const contactPhrases = [
+        "Xây dựng những điều thông minh",
+        "Tạo ra những sản phẩm tuyệt vời",
+        "Biến dữ liệu thành quyết định",
+        "Phát triển AI thực tiễn",
+        "Giải quyết bài toán thực tế"
+    ];
+    
+    const contactElement = document.getElementById('contact-rotating-text');
+    let contactIndex = 0;
+    let contactCharIndex = 0;
+    let isContactDeleting = false;
+
+    function rotateContact() {
+        const currentPhrase = contactPhrases[contactIndex];
+        
+        if (isContactDeleting) {
+            contactElement.textContent = currentPhrase.substring(0, contactCharIndex - 1);
+            contactCharIndex--;
+        } else {
+            contactElement.textContent = currentPhrase.substring(0, contactCharIndex + 1);
+            contactCharIndex++;
+        }
+
+        let typeSpeed = isContactDeleting ? 40 : 80;
+        if (!isContactDeleting && contactCharIndex === currentPhrase.length) {
+            typeSpeed = 1000;
+            isContactDeleting = true;
+        } else if (isContactDeleting && contactCharIndex === 0) {
+            isContactDeleting = false;
+            contactIndex = (contactIndex + 1) % contactPhrases.length;
+            typeSpeed = 300; 
+        }
+
+        setTimeout(rotateContact, typeSpeed);
+    }
+    window.addEventListener('load', rotateContact);
 </script>
 </html>
