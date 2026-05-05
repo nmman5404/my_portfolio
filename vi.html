@@ -980,6 +980,8 @@
         localStorage.setItem('aiLastMessageTime', lastMessageTime);
         localStorage.setItem('aiLastActivity', currentTime);
 
+        const previousHistory = chatHistory.slice(-6); 
+
         addAndSaveMessage(text, 'user');
         chatInput.value = '';
         chatInput.disabled = true;
@@ -990,7 +992,7 @@
             const response = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userMessage: text, lang: 'vi' }) 
+                body: JSON.stringify({ userMessage: text, lang: 'vi', history: previousHistory }) 
             });
 
             const data = await response.json();
