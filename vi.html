@@ -138,6 +138,18 @@
         html.dark .theme-bg {
             background-image: url('thumbnail_png/dark_bg.jpg');
         }
+
+        /* Hiệu ứng rung lắc nhẹ cho nút Âm nhạc */
+        @keyframes gentle-shake {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg) scale(1.1); }
+            50% { transform: rotate(10deg) scale(1.1); }
+            75% { transform: rotate(-10deg) scale(1.1); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+        .animate-gentle-shake {
+            animation: gentle-shake 0.3s ease-in-out infinite;
+        }
     </style>
 </head>
 
@@ -157,7 +169,7 @@
 
                 <div class="w-px h-5 bg-gray-300 dark:bg-gray-700 hidden md:block"></div>
 
-                <a id="lang-switch" href="/" class="flex items-center space-x-2 group cursor-pointer" title="Chuyển sang tiếng Anh">
+                <a id="lang-switch" href="/" class="flex items-center space-x-2 group cursor-pointer" title="Switch to English">
                     <span class="text-gray-400 dark:text-gray-500 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">EN</span>
                     <!-- Cập nhật nút gạt sang phải (translate-x-5) biểu thị đang ở chế độ VI -->
                     <div class="w-11 h-6 bg-gray-300 dark:bg-gray-700 rounded-full relative flex items-center p-1 transition-colors">
@@ -167,13 +179,21 @@
                     <span class="text-gray-900 dark:text-white font-bold transition-colors">VI</span>
                 </a>
 
-                <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors ml-2">
+                <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors ml-2" title="Thay đổi giao diện sáng/tối">
                     <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>
                     </svg>
                     <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                     </svg>
+                </button>
+
+                                <!-- NÚT BẬT/TẮT NHẠC NỀN -->
+                <button id="music-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors ml-4" title="Bật/Tắt Nhạc Nền">
+                    <!-- Icon Đang phát (Volume Up) -->
+                    <svg id="music-icon-on" class="hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M11 5L6 9H2v6h4l5 4V5z"></path></svg>
+                    <!-- Icon Tắt tiếng (Volume Mute) -->
+                    <svg id="music-icon-off" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clip-rule="evenodd"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path></svg>
                 </button>
             </div>
         </div>
@@ -790,6 +810,7 @@
             localStorage.setItem('color-theme', 'dark');
         }
         updateIcon();
+        loadThemeMusic();
     }
 
     const langSwitchBtn = document.getElementById('lang-switch');
@@ -1213,5 +1234,116 @@
         setTimeout(rotateContact, typeSpeed);
     }
     window.addEventListener('load', rotateContact);
+
+    // 10. BACKGROUND MUSIC LOGIC (AUTO-UNLOCK & SHAKE)
+    const musicToggleBtn = document.getElementById('music-toggle');
+    const musicIconOn = document.getElementById('music-icon-on');
+    const musicIconOff = document.getElementById('music-icon-off');
+
+    const lightMusicUrl = 'audio/light_bgm.mp3'; 
+    const darkMusicUrl = 'audio/night_bgm.mp3'; 
+
+    const bgMusic = new Audio();
+    bgMusic.loop = true; 
+    bgMusic.volume = 0.5; // Để 50% âm lượng cho êm ái
+    
+    let isMusicPlaying = false;
+    let currentMusicTheme = '';
+    let hasUserInteracted = false; // Biến kiểm tra xem user đã tương tác chưa
+
+    function updateMusicIcon() {
+        if (isMusicPlaying) {
+            musicIconOn.classList.remove('hidden');
+            musicIconOff.classList.add('hidden');
+        } else {
+            musicIconOn.classList.add('hidden');
+            musicIconOff.classList.remove('hidden');
+        }
+    }
+
+    function loadThemeMusic() {
+        const isDark = document.documentElement.classList.contains('dark');
+        const targetTheme = isDark ? 'dark' : 'light';
+        const newUrl = isDark ? darkMusicUrl : lightMusicUrl;
+
+        if (currentMusicTheme !== targetTheme) {
+            bgMusic.src = newUrl;
+            currentMusicTheme = targetTheme;
+            
+            if (isMusicPlaying) {
+                bgMusic.play().catch(e => console.warn("Lỗi chuyển nhạc:", e));
+            }
+        }
+    }
+
+    // Sự kiện bấm nút thủ công
+    musicToggleBtn.addEventListener('click', () => {
+        hasUserInteracted = true; // Đánh dấu là đã tương tác thủ công
+        if (isMusicPlaying) {
+            bgMusic.pause();
+            isMusicPlaying = false;
+        } else {
+            bgMusic.play().catch(e => console.warn("Lỗi phát nhạc:", e));
+            isMusicPlaying = true;
+        }
+        updateMusicIcon();
+        // Xóa hiệu ứng rung ngay lập tức nếu user chủ động bấm vào
+        musicToggleBtn.classList.remove('animate-gentle-shake', 'text-blue-500');
+    });
+
+    // --- LOGIC MỚI: TỰ ĐỘNG PHÁT VÀ RUNG KHI CÓ TƯƠNG TÁC ---
+    function unlockAudio() {
+        if (hasUserInteracted) return; // Nếu đã kích hoạt rồi thì bỏ qua
+
+        // Phát nhạc
+        bgMusic.play().then(() => {
+            hasUserInteracted = true;
+            isMusicPlaying = true;
+            updateMusicIcon();
+
+            // Kích hoạt hiệu ứng Rung và đổi màu Xanh nổi bật
+            musicToggleBtn.classList.add('animate-gentle-shake', 'text-blue-500');
+
+            // Tự động tắt hiệu ứng rung sau 3.5 giây để không làm phiền
+            setTimeout(() => {
+                musicToggleBtn.classList.remove('animate-gentle-shake', 'text-blue-500');
+            }, 1000);
+
+            // Gỡ bỏ các event listener để không chạy lại hàm này nữa
+            ['scroll', 'click', 'touchstart', 'keydown'].forEach(event => {
+                window.removeEventListener(event, unlockAudio);
+            });
+        }).catch(err => {
+            console.log("Trình duyệt vẫn đang chặn nhạc, chờ tương tác rõ ràng hơn...", err);
+        });
+    }
+
+    // Khởi tạo nhạc theo Theme ban đầu
+    window.addEventListener('DOMContentLoaded', () => {
+        loadThemeMusic();
+        
+        // Gắn sự kiện: Bất kỳ cuộn, bấm, hay chạm nào cũng sẽ mở khóa nhạc
+        ['scroll', 'click', 'touchstart', 'keydown'].forEach(event => {
+            window.addEventListener(event, unlockAudio, { passive: true });
+        });
+    });
+
+    document.addEventListener('visibilitychange', () => {
+        // Kiểm tra xem trang web có bị ẩn đi không (chuyển tab, thu nhỏ cửa sổ...)
+        if (document.hidden) {
+            // Nếu nhạc ĐANG BẬT thì mới tạm dừng
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                // Lưu ý: Không đổi biến isMusicPlaying thành false ở đây, 
+                // để web nhớ rằng trước khi rời đi, người dùng vẫn đang muốn nghe nhạc.
+            }
+        } else {
+            // Khi người dùng quay lại tab
+            // Chỉ phát nhạc tiếp nếu trước đó họ chưa bấm tắt (isMusicPlaying vẫn là true)
+            if (isMusicPlaying) {
+                bgMusic.play().catch(e => console.warn("Lỗi phát lại nhạc khi quay về tab:", e));
+            }
+        }
+    });
 </script>
 </html>
