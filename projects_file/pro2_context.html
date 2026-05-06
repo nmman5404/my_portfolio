@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Agentic RAG System</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        html { background-color: #f9fafb; }
+        html.dark { background-color: #111827; } 
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-300 font-sans antialiased transition-colors duration-300">
+
+    <!-- Navbar tối giản cho trang Blog -->
+    <nav class="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Nút Back -->
+            <a href="index.html#projects" class="flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Back to Portfolio
+            </a>
+            
+            <!-- Nút Dark/Light Mode -->
+            <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- NỘI DUNG BÀI VIẾT -->
+    <main class="max-w-4xl mx-auto px-6 pt-32 pb-20">
+        
+        <!-- Header Bài viết -->
+        <div class="mb-10 text-center">
+            <p class="text-blue-600 dark:text-blue-500 font-mono mb-3">Project Case Study</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                AI-Driven Inventory Manager with MCP
+            </h1>
+            <div class="flex items-center justify-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                <span>Hoàn thành</span>
+                <span>•</span>
+                <span>2026</span>
+            </div>
+        </div>
+
+        <!-- Ảnh Hero (Banner chính) -->
+        <div class="w-full h-64 md:h-[400px] bg-gray-200 dark:bg-gray-800 rounded-2xl overflow-hidden mb-12 shadow-lg">
+            <img src="proj2_banner.png" alt="Project Banner" class="w-full h-full object-cover">
+        </div>
+
+        <!-- Khung Nội Dung Text -->
+        <article class="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+            
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Tổng quan</h2>
+            <p>
+            Trong bối cảnh các hệ thống AI ngày càng được tích hợp sâu vào ứng dụng doanh nghiệp, việc cho phép các Mô hình ngôn ngữ lớn (LLMs) truy cập trực tiếp vào cơ sở dữ liệu tiềm ẩn nhiều rủi ro nghiêm trọng.
+             Các lỗ hổng như prompt injection, SQL injection, cũng như hiện tượng ảo giác (hallucination) có thể dẫn đến việc truy xuất sai dữ liệu, vi phạm tính toàn vẹn hoặc thậm chí gây ảnh hưởng đến hệ thống backend.
+            </p>
+
+            <p>
+             Dự án này cung cấp một ví dụ về cách xây dựng một hệ thống AI an toàn và có kiểm soát bằng cách
+             kết hợp sức mạnh phân tích ngôn ngữ tự nhiên của LLM với độ tin cậy của Backend .NET thông qua chuẩn Model Context Protocol (MCP).
+              Thay vì cho phép AI tương tác trực tiếp với cơ sở dữ liệu, hệ thống được thiết kế với sự tách biệt rõ ràng giữa hai phân hệ.
+            </p>
+
+            <p>
+            Cụ thể, LangGraph Python Agent đóng vai trò lớp điều phối thông minh, chịu trách nhiệm phân tích ý định người dùng, xử lý ngữ cảnh và điều hướng luồng truy xuất thông tin.
+             Trong khi đó, Backend .NET đảm nhiệm toàn bộ logic nghiệp vụ và kiểm soát truy cập dữ liệu theo các nguyên tắc nghiêm ngặt.
+              Cách tiếp cận này giúp giảm thiểu nguy cơ truy cập trái phép, đảm bảo tính toàn vẹn dữ liệu (ACID), đáp ứng các tiêu chuẩn bảo mật và độ tin cậy ở mức doanh nghiệp,
+               đồng thời duy trì khả năng mở rộng của kiến trúc Microservices.
+            </p>
+
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Các công cụ</h2>
+            <ul class="list-disc pl-5 space-y-2">
+                <li><strong>Kiến trúc & Giao thức:</strong> N-tier architecture, Model Context Protocol (MCP).</li>
+                <li><strong>Ngôn ngữ lập trình:</strong> Python, C#</li>
+                <li><strong>Framework:</strong> LangGraph (Agentic Workflow), LangChain, Ollama (Qwen 2.5 7B), ASP.NET Core (Web API), </li>
+                <li><strong>Database:</strong> MS SQL Server, Entity Framework Core</li>
+            </ul>
+
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Thách thức và Giải pháp</h2>
+            <ul class="list-disc pl-5 space-y-2">
+                <li>
+                <strong>Rủi ro bảo mật trong Text-to-SQL:</strong> Trong các hệ thống RAG truyền thống, LLM tự sinh câu lệnh SQL dựa trên schema, tiềm ẩn nguy cơ Prompt Injection 
+                và Hallucination có thể gây sai lệch hoặc phá hủy dữ liệu.
+                 Giải pháp là loại bỏ hoàn toàn việc cho AI truy cập trực tiếp Database, thay vào đó áp dụng kiến trúc N-Tier với một lớp McpController đóng vai trò "cổng giao tiếp",
+                  chỉ cho phép AI gọi endpoint /call thông qua JSON-RPC với tham số kiểm soát chặt chẽ, trong khi toàn bộ Business Logic và truy vấn LINQ được xử lý an toàn trong tầng InventoryService.
+                   Kết quả đạt được là sự phân tách trách nhiệm tuyệt đối, đảm bảo AI chỉ đóng vai trò điều phối thay vì thao tác trực tiếp với dữ liệu.
+                </li>
+
+                <li>
+                <strong>Khoảng trống ngữ nghĩa giữa ngôn ngữ tự nhiên và cơ sở dữ liệu quan hệ:</strong> Hệ thống gặp lỗi khi xử lý các truy vấn mơ hồ như "Macbook dưới 30 triệu"
+                 do sự khác biệt giữa cách người dùng diễn đạt và dữ liệu lưu trữ ("Macbook" vs "Apple"), dẫn đến truy vấn trả về kết quả rỗng.
+                  Giải pháp là chuyển trọng tâm xử lý từ prompt sang backend bằng cách nâng cấp logic tìm kiếm trong InventoryService, sử dụng toán tử Contains trên nhiều trường (Brand.Name, Laptop.Name)
+                   để tăng độ linh hoạt. Ngoài ra, hệ thống có thể mở rộng bằng cách tích hợp vector database để thực hiện semantic search, giúp ánh xạ các biểu diễn ngôn ngữ khác nhau về cùng một thực thể.
+                    Kết quả là hệ thống đạt được khả năng tìm kiếm linh hoạt (fuzzy-like và semantic-aware), xử lý hiệu quả sự đa nghĩa của ngôn ngữ tự nhiên và cải thiện độ chính xác của Agentic workflow.
+                </li>
+            </ul>
+        </article>           
+
+
+            <div class="mt-12 flex justify-center">
+                <a href="https://github.com/nmman5404/MCP_Agent" target="_blank" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">
+                   Xem mã nguồn trên GitHub
+                </a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer class="text-center py-8 border-t border-gray-200 dark:border-gray-800 text-sm text-gray-500 dark:text-gray-600">
+        <p>Thiết kế bởi Nguyễn Minh Mẫn</p>
+    </footer>
+
+    <!-- SCRIPT DARK MODE -->
+    <script>
+        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        function updateIcon() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleLightIcon.classList.add('hidden');
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+        }
+        updateIcon();
+        var themeToggleBtn = document.getElementById('theme-toggle');
+        themeToggleBtn.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+            updateIcon();
+        });
+    </script>
+</body>
+</html>

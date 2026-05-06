@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Agentic RAG System</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        html { background-color: #f9fafb; }
+        html.dark { background-color: #111827; } 
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-300 font-sans antialiased transition-colors duration-300">
+
+    <!-- Navbar tối giản cho trang Blog -->
+    <nav class="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Nút Back -->
+            <a href="index.html#projects" class="flex items-center text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Back to Portfolio
+            </a>
+            
+            <!-- Nút Dark/Light Mode -->
+            <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- NỘI DUNG BÀI VIẾT -->
+    <main class="max-w-4xl mx-auto px-6 pt-32 pb-20">
+        
+        <!-- Header Bài viết -->
+        <div class="mb-10 text-center">
+            <p class="text-blue-600 dark:text-blue-500 font-mono mb-3">Project Case Study</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                Agentic RAG System
+            </h1>
+            <div class="flex items-center justify-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                <span>Hoàn thành</span>
+                <span>•</span>
+                <span>2026</span>
+            </div>
+        </div>
+
+        <!-- Ảnh Hero (Banner chính) -->
+        <div class="w-full h-64 md:h-[400px] bg-gray-200 dark:bg-gray-800 rounded-2xl overflow-hidden mb-12 shadow-lg">
+            <img src="proj1_banner.png" alt="Project Banner" class="w-full h-full object-cover">
+        </div>
+
+        <!-- Khung Nội Dung Text -->
+        <article class="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+            
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Tổng quan</h2>
+            <p>
+            Agentic RAG là một bước tiến từ chatbot hỏi-đáp truyền thống (rule-based) sang một AI Agent có khả năng hiểu ngữ cảnh và xử lý linh hoạt.
+            Thay vì chỉ truy xuất thông tin dựa trên so khớp từ khóa một cách cứng nhắc, hệ thống có thể diễn giải câu hỏi và phản hồi tự nhiên hơn.
+            </p>
+
+            <p>
+            Khi người dùng đưa ra câu hỏi phức tạp hoặc mơ hồ, Agent không chỉ trả lời trực tiếp mà còn có khả năng phân tích ý định, truy xuất thông tin liên quan và tổng hợp câu trả lời phù hợp.
+            Đồng thời, hệ thống còn tích hợp cơ chế kiểm duyệt nội dung và ghi nhớ ngữ cảnh qua nhiều lượt hội thoại.
+            </p>
+
+            <p>
+            Mục tiêu của dự án là xây dựng một trợ lý AI sử dụng RAG kết hợp với bộ dữ liệu 
+            <a href="https://huggingface.co/datasets/ura-hcmut/zalo_e2eqa/tree/refs%2Fpr%2F1" target="_blank">
+            zalo_e2eqa
+            </a>, nhằm cung cấp câu trả lời chính xác, tự nhiên và an toàn.
+            </p>
+
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Các công cụ</h2>
+            <ul class="list-disc pl-5 space-y-2">
+                <li><strong>Ngôn ngữ lập trình:</strong> Python</li>
+                <li><strong>Framework/ Thư viện:</strong> LangGraph (quản lý State/ luồng đồ thị) và LangChain (Hugging Face, Ollama), Ollama (Local LLM: Qwen 2.5 7B).</li>
+                <li><strong>Database:</strong> Vector Database (Chroma) </li>
+            </ul>
+
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">Tính năng, Thách thức và Giải pháp</h2>
+            <ul class="list-disc pl-5 space-y-2">
+                <li><strong>Định hình ngữ cảnh sinh văn bản (Contextual Grounding):</strong> Ở những phiên bản đầu tiên, Agent thường đưa ra các câu trả lời cộc lốc, khuyết thiếu chủ ngữ (ví dụ: hỏi "Ai tạo ra Unikey?", model chỉ đáp "Phạm Kim Long").
+                    Điều này làm đứt gãy mạch logic của cuộc hội thoại.
+                    Vấn đề này được giải quyết bằng kỹ thuật Prompt Engineering, ép mô hình áp dụng cấu trúc [Nhắc lại câu hỏi]-[Cung cấp câu trả lời], đảm bảo văn bản sinh ra luôn trọn vẹn ngữ nghĩa và tạo tiền đề tốt cho các lượt chat sau.</li>
+                <li><strong>Điều phối luồng (Orchestration) và Bảo mật với LangGraph:</strong> Để thoát khỏi những hạn chế của một pipeline RAG tuyến tính, hệ thống được tái cấu trúc toàn diện sang dạng đồ thị bằng LangGraph. 
+                    Nâng cấp này cho phép thiết lập một trạm kiểm duyệt (Guardrail) ngay tại đầu vào của đồ thị.
+                    Bằng việc kết hợp các biểu thức chính quy (Regex) đơn giản nhưng tốc độ cao, hệ thống có thể phân luồng dữ liệu, chặn các truy vấn nhạy cảm trước khi chúng kịp tiêu tốn tài nguyên tính toán của Vector DB.</li>
+                <li><strong>Quản lý Trạng thái Hội thoại (State Memory):</strong> Tích hợp cơ chế MemorySaver giúp quản lý State của LangGraph.
+                    Tính năng này cấp cho Agent một trí nhớ gắn liền với từng định danh phiên chat (Thread ID), cho phép hệ thống duy trì các cuộc đối thoại đa lượt (Multi-turn) một cách tự nhiên và xuyên suốt.</li>
+                <li><strong>Khắc phục chứng "Trôi dạt sự chú ý" (Attention Drift):</strong> Việc sở hữu bộ nhớ dài lại sinh ra một "tác dụng phụ" nguy hiểm: LLM dễ bị "lú lẫn" với các đại từ (anh ấy, quốc gia này) và bị phân tâm bởi các chủ đề ở lượt chat quá cũ.
+                    Bài toán khó này được hóa giải bằng cách xây dựng một hàm Query Rewriting (Viết lại truy vấn) trực tiếp ngay bên trong node Retriever.
+                    Tại đây, kĩ thuật Few-Shot Prompting được áp dụng, toàn bộ lịch sử chat được đưa vào để yêu cầu Agent tổng hợp thông tin quá khứ cùng câu hỏi mập mờ thành một câu truy vấn độc lập.
+                    Nhờ đó, Vector DB luôn truy xuất tài liệu cần thiết chính xác hơn, loại bỏ hiện tượng mất dấu ngữ cảnh của hệ thống.</li>
+            </ul>           
+
+
+            <div class="mt-12 flex justify-center">
+                <a href="https://github.com/nmman5404/MiniChatBot" target="_blank" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">
+                   Xem mã nguồn trên GitHub
+                </a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer class="text-center py-8 border-t border-gray-200 dark:border-gray-800 text-sm text-gray-500 dark:text-gray-600">
+        <p>Thiết kế bởi Nguyễn Minh Mẫn</p>
+    </footer>
+
+    <!-- SCRIPT DARK MODE -->
+    <script>
+        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        function updateIcon() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleLightIcon.classList.add('hidden');
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+        }
+        updateIcon();
+        var themeToggleBtn = document.getElementById('theme-toggle');
+        themeToggleBtn.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+            updateIcon();
+        });
+    </script>
+</body>
+</html>
