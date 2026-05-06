@@ -72,7 +72,7 @@ Response:
 
         // 4. KHỞI TẠO VÀ GỌI MODEL
         const model = genAI.getGenerativeModel({ 
-            model: "gemma-3-12b-it" 
+            model: "gemma-3-4b-it" 
         });
 
         const result = await model.generateContent(finalPrompt);
