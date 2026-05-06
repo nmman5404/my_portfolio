@@ -850,7 +850,7 @@
     let isChatOpen = false;
     let countdownInterval;
 
-    const MAX_MESSAGES = 10;
+    const MAX_MESSAGES = 5;
     const COOLDOWN_MS = 3000; 
     const SESSION_TIMEOUT_MS = 5 * 60 * 1000; 
 
@@ -898,7 +898,7 @@
             } else {
                 const m = Math.floor(timeLeft / 60000);
                 const s = Math.floor((timeLeft % 60000) / 1000);
-                chatWarning.innerText = `Đã đạt giới hạn 10 tin nhắn. Vui lòng đợi ${m}phút ${s}giây để đặt lại.`;
+                chatWarning.innerText = `Đã đạt giới hạn ${MAX_MESSAGES} tin nhắn. Vui lòng đợi ${m}phút ${s}giây để đặt lại.`;
             }
         };
 

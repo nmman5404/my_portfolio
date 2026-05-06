@@ -72,7 +72,7 @@ Response:
 
         // 4. KHỞI TẠO VÀ GỌI MODEL
         const model = genAI.getGenerativeModel({ 
-            model: "gemma-3-4b-it" 
+            model: "gemini-3.1-flash-liteS" 
         });
 
         const result = await model.generateContent(finalPrompt);

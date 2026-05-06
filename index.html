@@ -846,7 +846,7 @@
     let countdownInterval;
 
     // CONFIGURATION
-    const MAX_MESSAGES = 10;
+    const MAX_MESSAGES = 5;
     const COOLDOWN_MS = 3000; // 3 seconds
     const SESSION_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
 
@@ -897,7 +897,7 @@
             } else {
                 const m = Math.floor(timeLeft / 60000);
                 const s = Math.floor((timeLeft % 60000) / 1000);
-                chatWarning.innerText = `Limit of 10 messages reached. Please wait ${m}m ${s}s to reset.`;
+                chatWarning.innerText = `Limit of ${MAX_MESSAGES} messages reached. Please wait ${m}m ${s}s to reset.`;
             }
         };
 
