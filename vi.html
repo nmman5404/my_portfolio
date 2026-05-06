@@ -771,6 +771,9 @@
 
     <footer class="text-center py-6 text-sm text-gray-500 dark:text-gray-600 transition-colors duration-300">
         <p>Thiết kế bởi Nguyễn Minh Mẫn</p>
+        <p class="mt-1 text-xs opacity-70">
+            BGM: <span id="music-credit" class="transition-all duration-300">loading...</span>
+        </p>
     </footer>
 
 </body>
@@ -1261,6 +1264,8 @@
         }
     }
 
+    const musicCreditEl = document.getElementById('music-credit');
+
     function loadThemeMusic() {
         const isDark = document.documentElement.classList.contains('dark');
         const targetTheme = isDark ? 'dark' : 'light';
@@ -1269,7 +1274,12 @@
         if (currentMusicTheme !== targetTheme) {
             bgMusic.src = newUrl;
             currentMusicTheme = targetTheme;
-            
+            // CẬP NHẬT TÊN TÁC GIẢ THEO THEME ---
+            if (isDark) {
+                musicCreditEl.innerHTML = '<a href="https://pixabay.com/music/meditationspiritual-under-the-stars-201280/" target="_blank" class="hover:text-blue-500 dark:hover:text-blue-400">under the stars</a> bởi <b>ELAZAR-MILLER</b> trên Pixabay';
+            } else {
+                musicCreditEl.innerHTML = '<a href="https://pixabay.com/music/ambient-coloring-the-sky-448361/" target="_blank" class="hover:text-blue-500 dark:hover:text-blue-400">Coloring the Sky</a> bởi <b>kallydru</b> trên Pixabay';
+            }      
             if (isMusicPlaying) {
                 bgMusic.play().catch(e => console.warn("Lỗi chuyển nhạc:", e));
             }
