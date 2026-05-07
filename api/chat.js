@@ -67,6 +67,8 @@ ${historyString}
 ${userMessage}
 </user_input>
 
+Generate the final response directly without any internal monologue or step-by-step reasoning:
+
 Response:
 `;
         const aiModelName = process.env.GEMINI_MODEL_NAME || "gemini-3.1-flash-lite-preview";
