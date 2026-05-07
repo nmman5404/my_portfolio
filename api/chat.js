@@ -84,4 +84,15 @@ Response:
         console.error("Lỗi chi tiết từ API:", error);
         return res.status(500).json({ message: 'Lỗi AI: ' + error.message });
     }
+
+    // IN RA CÂU HỎI CỦA USER
+        console.log("🟢 USER HỎI:", userMessage);
+
+        const result = await model.generateContent(finalPrompt);
+        const response = await result.response;
+        
+        // IN RA CÂU TRẢ LỜI CỦA AI
+        console.log("🔵 AI TRẢ LỜI:", response.text());
+
+        return res.status(200).json({ reply: response.text() });
 }
