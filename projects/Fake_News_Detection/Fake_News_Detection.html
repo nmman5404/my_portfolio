@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Fake News Detection with a BERT-XLNet Hybrid Model
+</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        html { background-color: #f9fafb; }
+        html.dark { background-color: #111827; } 
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-300 font-sans antialiased transition-colors duration-300">
+
+    <!-- Navbar tối giản cho trang Blog -->
+    <nav class="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Nút Back -->
+            <a href="#" id="back-btn" class="text-blue-500 hover:underline">
+                &larr; Quay lại trang chủ
+            </a>
+            
+            <!-- Nút Dark/Light Mode -->
+            <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- NỘI DUNG BÀI VIẾT -->
+    <main class="max-w-4xl mx-auto px-6 pt-32 pb-20">
+        
+        <!-- Header Bài viết -->
+        <div class="mb-10 text-center">
+            <p class="text-blue-600 dark:text-blue-500 font-mono mb-3">Project Case Study</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                Fake News Detection with a BERT-XLNet Hybrid Model
+            </h1>
+            <div class="flex items-center justify-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                <span>Nguyễn Minh Mẫn, Nguyễn Ngọc Tuyết Nhi</span>
+            </div>
+            <div class="flex items-center justify-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                <span>2025</span>
+            </div>
+        </div>
+
+        <!-- Ảnh Hero (Banner chính) -->
+        <div class="w-full aspect-video bg-gray-200 dark:bg-gray-800 rounded-2xl overflow-hidden mb-12 shadow-lg">
+            <img src="proj4_banner.png" 
+                alt="Project Banner" 
+                class="w-full h-full object-cover">
+        </div>
+
+        <!-- Khung Nội Dung Text -->
+        <article class="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+            
+<!-- Nội dung -->
+    <article class="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+
+        <!-- Tổng quan -->
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+            Tổng quan
+        </h2>
+
+        <p>
+            Trong thời đại mạng xã hội và báo chí trực tuyến phát triển mạnh mẽ, fake news (tin giả) đã trở thành một vấn đề nghiêm trọng ảnh hưởng trực tiếp đến nhận thức cộng đồng, chính trị, kinh tế và xã hội.
+            Các bài viết giả mạo ngày càng được tạo ra tinh vi hơn, mô phỏng cấu trúc và văn phong của tin thật, khiến việc kiểm chứng thủ công trở nên khó khăn và tốn nhiều thời gian.
+        </p>
+
+        <p>
+            Dự án này tập trung xây dựng một hệ thống phát hiện tin giả tự động bằng cách kết hợp hai mô hình ngôn ngữ mạnh mẽ là BERT và XLNet.
+            Thay vì chỉ sử dụng một mô hình Transformer đơn lẻ, hệ thống khai thác đồng thời khả năng hiểu ngữ nghĩa hai chiều của BERT và khả năng xử lý phụ thuộc dài hạn của XLNet nhằm nâng cao độ chính xác phân loại.
+        </p>
+
+        <p>
+            Ngoài việc kết hợp đặc trưng từ hai mô hình pretrained, hệ thống còn tích hợp thêm cơ chế Gating để tự động điều chỉnh mức độ đóng góp của từng vector đặc trưng theo từng ngữ cảnh đầu vào.
+            Điều này giúp mô hình giảm nhiễu, tăng khả năng tổng quát hóa và cải thiện hiệu quả nhận diện giữa tin thật và tin giả.
+        </p>
+
+        <!-- Công nghệ -->
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+            Các công cụ và công nghệ
+        </h2>
+
+        <ul class="list-disc pl-5 space-y-2">
+            <li>
+                <strong>Ngôn ngữ lập trình:</strong> Python
+            </li>
+
+            <li>
+                <strong>Framework / Thư viện:</strong> PyTorch, Hugging Face Transformers, Scikit-learn, Pandas, NumPy, Matplotlib
+            </li>
+
+            <li>
+                <strong>Pretrained Models:</strong> bert-base-uncased, xlnet-base-cased
+            </li>
+
+            <li>
+                <strong>Kỹ thuật huấn luyện:</strong> Mixed Precision Training (FP16), Gradient Clipping, AdamW Optimizer, Linear Warmup Scheduler
+            </li>
+
+            <li>
+                <strong>Phần cứng:</strong> NVIDIA RTX 3060 12GB
+            </li>
+        </ul>
+
+        <!-- Dataset -->
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+            Bộ dữ liệu và tiền xử lý
+        </h2>
+
+        <p>
+            Hệ thống được huấn luyện trên bộ dữ liệu gồm hơn 78 000 bài báo tiếng Anh, bao gồm cả tin thật và tin giả.
+            Các bài báo thật được thu thập từ các nguồn uy tín như Reuters và The New York Times, trong khi các bài báo giả được lấy từ các website lan truyền thông tin sai lệch.
+        </p>
+
+        <p>
+            Trước khi huấn luyện, dữ liệu được làm sạch thông qua nhiều bước preprocessing:
+        </p>
+
+        <ul class="list-disc pl-5 space-y-2">
+            <li>Chuyển toàn bộ văn bản sang lowercase</li>
+            <li>Loại bỏ URL và ký tự đặc biệt</li>
+            <li>Chuẩn hóa khoảng trắng</li>
+            <li>Loại bỏ dữ liệu rỗng và dữ liệu trùng lặp</li>
+            <li>Lọc văn bản theo độ dài từ 32 đến 400 từ</li>
+        </ul>
+
+        <p>
+            Sau quá trình làm sạch và sàn lọc, tập dữ liệu còn khoảng 34 000 mẫu với tỷ lệ phân bố gần như cân bằng giữa hai lớp thật và giả.
+            Dữ liệu sau đó được chia theo tỷ lệ 80% train, 10% validation và 10% test nhằm đảm bảo khả năng đánh giá tổng quát hóa của mô hình.
+        </p>
+
+        <!-- Kiến trúc -->
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+            Kiến trúc mô hình HybridClassifier
+        </h2>
+
+        <p>
+            Mô hình HybridClassifier được thiết kế theo hướng hybrid neural network, kết hợp song song hai encoder mạnh mẽ là BERT và XLNet.
+            Cả hai mô hình đều nhận cùng một đầu vào văn bản nhưng trích xuất đặc trưng theo những cách khác nhau.
+        </p>
+
+        <p>
+            BERT đóng vai trò học biểu diễn ngữ nghĩa hai chiều nhờ cơ chế self-attention, trong khi XLNet tận dụng permutation language modeling để xử lý tốt hơn các phụ thuộc dài hạn và giữ nguyên toàn bộ thông tin đầu vào mà không cần masking token.
+        </p>
+
+        <p>
+            Đầu ra từ hai encoder được nối (concatenate) lại thành một vector đặc trưng lớn hơn.
+            Sau đó, hệ thống áp dụng một gating layer sử dụng hàm sigmoid để học trọng số động cho từng đặc trưng.
+            Các trọng số này được nhân trực tiếp với vector đặc trưng nhằm giữ lại những thành phần quan trọng nhất cho quá trình phân loại.
+        </p>
+
+        <p>
+            Cuối cùng, vector đã được tối ưu hóa sẽ đi qua fully connected classifier để đưa ra dự đoán cuối cùng giữa hai lớp REAL và FAKE.
+        </p>
+
+        <!-- Training -->
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+            Quy trình huấn luyện
+        </h2>
+
+        <p>
+            Mô hình được huấn luyện với batch size 8 và learning rate 2e-6 trong 10 epochs.
+            Hệ thống sử dụng AdamW optimizer kết hợp cùng Linear Warmup Scheduler để ổn định quá trình tối ưu hóa.
+        </p>
+
+        <p>
+            Để tăng tốc độ huấn luyện và giảm bộ nhớ GPU, dự án áp dụng Mixed Precision Training thông qua torch.amp.GradScaler.
+            Đồng thời, kỹ thuật Gradient Clipping cũng được sử dụng nhằm tránh hiện tượng exploding gradients khi fine-tune các Transformer lớn.
+        </p>
+
+        <p>
+            Validation loss được theo dõi sau mỗi epoch và mô hình tốt nhất sẽ được lưu lại dựa trên hiệu suất tập validation.
+        </p>
+
+        <!-- Kết quả -->
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+            Kết quả đạt được
+        </h2>
+
+        <p>
+            Sau quá trình huấn luyện và đánh giá trên tập kiểm thử, mô hình HybridClassifier đạt được kết quả khá tích cực:
+        </p>
+        <div class="flex justify-center my-8">
+            <div class="w-full max-w-md">
+                <img 
+                    src="proj4_confusionMatrix.png"
+                    alt="Confusion Matrix"
+                    class="w-full rounded-xl shadow-md border border-gray-200 dark:border-gray-700"
+                >
+
+                <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2 italic">
+                    Ma trận nhầm lẫn (Confusion Matrix) của kết quả đánh giá mô hình.
+                </p>
+            </div>
+        </div>
+        <ul class="list-disc pl-5 space-y-2">
+            <li><strong>Accuracy:</strong> 90.42%</li>
+            <li><strong>Precision:</strong> 89.89%</li>
+            <li><strong>Recall:</strong> 91.63%</li>
+            <li><strong>F1-Score:</strong> 90.76%</li>
+        </ul>
+
+        <p>
+            Kết quả cho thấy việc kết hợp BERT và XLNet mang lại hiệu suất khá tốt.
+            Cơ chế Gating giúp mô hình linh hoạt hơn trong việc lựa chọn đặc trưng phù hợp với từng loại văn bản.
+        </p>
+
+        <p>
+            Tuy nhiên, mô hình vẫn tồn tại một số hạn chế như chi phí tính toán cao, thời gian huấn luyện dài và dấu hiệu overfitting nhẹ sau epoch thứ 3.
+        </p>
+
+        <div class="flex justify-center my-8">
+            <div class="w-full max-w-2xl">
+                <img 
+                    src="proj4_trainingLoss.png"
+                    alt="Training Loss"
+                    class="w-full rounded-xl shadow-md border border-gray-200 dark:border-gray-700"
+                >
+
+                <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2 italic">
+                    Đường cong mất mát huấn luyện qua các epoch.
+                </p>
+            </div>
+        </div>
+
+        <!-- Thách thức -->
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+            Thách thức và giải pháp
+        </h2>
+
+        <ul class="list-disc pl-5 space-y-2">
+
+            <li>
+                <strong>Kích thước mô hình lớn:</strong>
+                Việc sử dụng đồng thời hai Transformer lớn khiến mô hình tiêu tốn nhiều VRAM và thời gian huấn luyện.
+                Vấn đề này được giải quyết bằng cách sử dụng FP16 Mixed Precision Training để giảm tải bộ nhớ GPU.
+            </li>
+
+            <li>
+                <strong>Độ dài văn bản không đồng đều:</strong>
+                Dataset chứa nhiều bài báo quá ngắn hoặc quá dài gây lãng phí token và ảnh hưởng hiệu suất.
+                Giải pháp là áp dụng filtering theo khoảng 32–400 từ để chuẩn hóa đầu vào.
+            </li>
+
+            <li>
+                <strong>Nguy cơ overfitting:</strong>
+                Do mô hình có số lượng tham số lớn, hiện tượng overfit bắt đầu xuất hiện từ epoch thứ 3.
+                Hệ thống sử dụng Dropout, Weight Decay và Validation Monitoring để giảm thiểu vấn đề này.
+            </li>
+
+            <li>
+                <strong>Nhiễu dữ liệu:</strong>
+                Các bài báo online thường chứa URL, ký tự đặc biệt và dữ liệu trùng lặp.
+                Một pipeline preprocessing toàn diện đã được xây dựng nhằm làm sạch dữ liệu trước khi tokenization.
+            </li>
+
+        </ul>
+
+        <!-- Hướng phát triển -->
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+            Hướng phát triển
+        </h2>
+
+        <p>
+            Trong tương lai, dự án có thể được mở rộng theo nhiều hướng khác nhau nhằm tăng tính ứng dụng thực tế:
+        </p>
+
+        <ul class="list-disc pl-5 space-y-2">
+            <li>Sử dụng các mô hình lightweight như DistilBERT hoặc ALBERT để giảm chi phí tính toán</li>
+            <li>Hỗ trợ đa ngôn ngữ với mBERT hoặc XLM-Roberta, bao gồm cả tiếng Việt</li>
+            <li>Tích hợp Explainable AI bằng LIME hoặc SHAP để giải thích quyết định của mô hình</li>
+            <li>Xây dựng extension hoặc web application hỗ trợ kiểm chứng tin tức theo thời gian thực</li>
+            <li>Kết hợp metadata như nguồn tin, tác giả hoặc thời gian đăng bài để cải thiện độ chính xác</li>
+        </ul>       
+
+            <div class="mt-12 flex justify-center">
+                <a href="https://github.com/nmman5404/Fake-News-Detection-with-a-BERT-XLNet-Hybrid-Model" target="_blank" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">
+                   Xem mã nguồn trên GitHub
+                </a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer class="text-center py-8 border-t border-gray-200 dark:border-gray-800 text-sm text-gray-500 dark:text-gray-600">
+        <p>Thiết kế bởi Nguyễn Minh Mẫn</p>
+    </footer>
+
+    <!-- SCRIPT DARK MODE -->
+    <script>
+        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        function updateIcon() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleLightIcon.classList.add('hidden');
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+        }
+        updateIcon();
+        var themeToggleBtn = document.getElementById('theme-toggle');
+        themeToggleBtn.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+            updateIcon();
+        });
+    </script>
+
+    <script>
+    document.getElementById('back-btn').addEventListener('click', function(e) {
+        e.preventDefault(); // Ngăn trình duyệt nhảy lên đầu trang do dấu #
+
+        // (Tránh trường hợp họ copy link gửi cho bạn bè, bạn bè bấm vào không biết lùi đi đâu)
+        if (document.referrer && document.referrer.includes(window.location.host)) {
+            window.history.back(); // Trở lại đúng trang trước đó (vi.html hoặc index.html)
+        } else {
+            // Nếu khách vào thẳng link blog, mặc định cho họ về trang chủ tiếng Anh
+            window.location.href = '/'; 
+
+        }
+    });
+    </script>
+</body>
+</html>

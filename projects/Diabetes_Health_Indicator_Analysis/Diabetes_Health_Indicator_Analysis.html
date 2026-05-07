@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Diabetes Health Indicator Analysis
+    </title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #111827;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+
+        html {
+            background-color: #f9fafb;
+        }
+
+        html.dark {
+            background-color: #111827;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-300 font-sans antialiased transition-colors duration-300">
+
+    <!-- Navbar tối giản cho trang Blog -->
+    <nav
+        class="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Nút Back -->
+            <a href="#" id="back-btn" class="text-blue-500 hover:underline">
+                &larr; Quay lại trang chủ
+            </a>
+
+            <!-- Nút Dark/Light Mode -->
+            <button id="theme-toggle"
+                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z">
+                    </path>
+                </svg>
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- NỘI DUNG BÀI VIẾT -->
+    <main class="max-w-4xl mx-auto px-6 pt-32 pb-20">
+
+        <!-- Header Bài viết -->
+        <div class="mb-10 text-center">
+            <p class="text-blue-600 dark:text-blue-500 font-mono mb-3">Project Case Study</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                Diabetes Health Indicator Analysis
+            </h1>
+            <div class="flex items-center justify-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                <span>Nguyễn Minh Mẫn, Ngô Kim Ngọc, Nguyễn Thị Yến Linh, Nguyễn Ngọc Tuyết Nhi</span>
+            </div>
+            <div class="flex items-center justify-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                <span>2025</span>
+            </div>
+        </div>
+
+        <!-- Ảnh Hero (Banner chính) -->
+        <div class="w-full aspect-video bg-gray-200 dark:bg-gray-800 rounded-2xl overflow-hidden mb-12 shadow-lg">
+            <img src="proj5_banner.png" alt="Project Banner" class="w-full h-full object-cover">
+        </div>
+
+        <!-- Khung Nội Dung Text -->
+        <article class="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+
+            <!-- Nội dung -->
+            <article class="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+
+    <!-- Tổng quan -->
+    <h2
+        class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+        Tổng quan
+    </h2>
+
+    <p>
+        Tiểu đường hiện là một trong những bệnh lý mạn tính phổ biến và nguy hiểm nhất trên toàn cầu.
+        Theo nhiều nghiên cứu y tế, phần lớn bệnh nhân thường chỉ được phát hiện khi bệnh đã tiến triển
+        hoặc xuất hiện biến chứng liên quan đến tim mạch, thần kinh và thận.
+        Điều này khiến việc phát hiện sớm các nhóm có nguy cơ cao trở thành một bài toán đặc biệt quan trọng
+        trong y học dự phòng hiện đại.
+    </p>
+
+    <p>
+        Trong thực tế, dữ liệu sức khỏe cộng đồng thường tồn tại nhiều vấn đề như:
+        mất cân bằng dữ liệu nghiêm trọng, nhiễu thống kê,
+        đặc trưng y tế chồng chéo giữa các nhóm bệnh,
+        cũng như sự khác biệt lớn giữa các hành vi sinh hoạt và yếu tố nhân khẩu học.
+        Điều này khiến việc xây dựng các hệ thống dự đoán bệnh bằng Machine Learning trở nên khó khăn hơn nhiều
+        so với các bài toán classification thông thường.
+    </p>
+
+    <p>
+        Dự án này tập trung xây dựng một hệ thống phân tích nguy cơ tiểu đường
+        dựa trên bộ dữ liệu Behavioral Risk Factor Surveillance System (BRFSS),
+        kết hợp giữa Data Analysis, Statistical Testing và Machine Learning
+        nhằm phát hiện sớm các cá nhân thuộc nhóm:
+        Không tiểu đường, Tiền tiểu đường và Tiểu đường.
+    </p>
+
+    <p>
+        Thay vì chỉ tối ưu Accuracy tổng thể,
+        nghiên cứu ưu tiên góc nhìn medical screening —
+        nơi Recall cho các nhóm nguy cơ cao đóng vai trò quan trọng hơn
+        nhằm giảm thiểu khả năng bỏ sót bệnh nhân.
+    </p>
+
+    <!-- Công nghệ -->
+    <h2
+        class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+        Các công cụ và công nghệ
+    </h2>
+
+    <ul class="list-disc pl-5 space-y-2">
+
+        <li>
+            <strong>Ngôn ngữ lập trình:</strong> Python
+        </li>
+
+        <li>
+            <strong>Phân tích dữ liệu:</strong> Pandas, NumPy
+        </li>
+
+        <li>
+            <strong>Trực quan hóa:</strong> Matplotlib, Seaborn
+        </li>
+
+        <li>
+            <strong>Machine Learning:</strong> Scikit-learn, XGBoost
+        </li>
+
+        <li>
+            <strong>Các mô hình sử dụng:</strong>
+            Logistic Regression, Random Forest, XGBoost
+        </li>
+
+        <li>
+            <strong>Kỹ thuật xử lý dữ liệu:</strong>
+            Feature Scaling, Label Encoding, Class Balancing
+        </li>
+
+        <li>
+            <strong>Đánh giá mô hình:</strong>
+            Precision, Recall, F1-score, Confusion Matrix
+        </li>
+
+        <li>
+            <strong>Môi trường thực thi:</strong>
+            Jupyter Notebook, VS Code
+        </li>
+
+    </ul>
+
+    <!-- Bộ dữ liệu -->
+    <h2
+        class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+        Bộ dữ liệu BRFSS
+    </h2>
+
+    <p>
+        Dự án sử dụng bộ dữ liệu Behavioral Risk Factor Surveillance System (BRFSS),
+        một trong những hệ thống khảo sát sức khỏe cộng đồng lớn nhất tại Hoa Kỳ,
+        được thu thập bởi Centers for Disease Control and Prevention (CDC).
+    </p>
+
+    <p>
+        Dataset bao gồm nhiều thông tin liên quan đến:
+        tình trạng sức khỏe, thói quen sinh hoạt, hoạt động thể chất,
+        tiền sử bệnh lý và yếu tố nhân khẩu học.
+        Các đặc trưng này cho phép mô hình học được mối liên hệ giữa hành vi sống
+        và nguy cơ phát triển bệnh tiểu đường.
+    </p>
+
+    <p>
+        Sau quá trình tiền xử lý,
+        dữ liệu được chia thành ba nhóm mục tiêu chính:
+    </p>
+
+    <ul class="list-disc pl-5 space-y-2">
+
+        <li>Không tiểu đường</li>
+
+        <li>Tiền tiểu đường</li>
+
+        <li>Tiểu đường</li>
+
+    </ul>
+
+    <p>
+        Một trong những thách thức lớn nhất của dataset là hiện tượng class imbalance nghiêm trọng,
+        khi nhóm Tiền tiểu đường chiếm tỷ lệ rất thấp so với phần còn lại.
+        Điều này khiến mô hình dễ thiên lệch về lớp majority
+        và bỏ sót các trường hợp nguy cơ thực sự.
+    </p>
+
+    <!-- EDA -->
+    <h2
+        class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+        Phân tích dữ liệu khám phá (EDA)
+    </h2>
+
+    <p>
+        Trước khi huấn luyện mô hình,
+        dữ liệu được phân tích nhằm tìm hiểu đặc điểm phân bố,
+        tương quan giữa các đặc trưng
+        và các yếu tố có ảnh hưởng mạnh đến nguy cơ tiểu đường.
+    </p>
+
+    <p>
+        Quá trình EDA tập trung vào:
+    </p>
+
+    <ul class="list-disc pl-5 space-y-2">
+
+        <li>Phân bố class và mức độ mất cân bằng dữ liệu</li>
+
+        <li>Ảnh hưởng của BMI đến nguy cơ bệnh</li>
+
+        <li>Tác động của tuổi tác và hoạt động thể chất</li>
+
+        <li>Mối liên hệ giữa huyết áp cao, cholesterol và tiểu đường</li>
+
+        <li>Phân tích correlation giữa các đặc trưng y tế</li>
+
+    </ul>
+
+    <p>
+        Kết quả cho thấy các đặc trưng như BMI cao,
+        tuổi lớn,
+        ít vận động,
+        huyết áp cao
+        và tiền sử bệnh tim
+        có tương quan đáng kể với nguy cơ mắc tiểu đường.
+    </p>
+
+    <!-- Placeholder Image -->
+    <div class="flex justify-center my-8">
+        <div class="w-full max-w-3xl">
+
+            <img
+                src="proj5_correlation.png"
+                alt="EDA Visualization"
+                class="w-full rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
+
+            <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2 italic">
+                Sự tương quan giữa các đặc trưng y tế và nguy cơ tiểu đường.
+            </p>
+
+        </div>
+    </div>
+
+    <!-- Statistical Analysis -->
+    <h2
+        class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+        Phân tích thống kê và kiểm định giả thuyết
+    </h2>
+
+    <p>
+        Ngoài các kỹ thuật trực quan hóa,
+        dự án còn áp dụng các phương pháp kiểm định thống kê
+        nhằm đánh giá mức độ ảnh hưởng của từng đặc trưng lên biến mục tiêu.
+    </p>
+
+    <p>
+        Các kiểm định được sử dụng bao gồm:
+    </p>
+
+    <ul class="list-disc pl-5 space-y-2">
+
+        <li>Chi-Square Test cho các biến phân loại</li>
+
+        <li>ANOVA và t-test cho các biến liên tục</li>
+
+        <li>Correlation Analysis giữa các feature y tế</li>
+
+    </ul>
+
+    <p>
+        Kết quả kiểm định cho thấy nhiều biến có ý nghĩa thống kê mạnh
+        đối với nguy cơ tiểu đường,
+        đặc biệt là BMI,
+        HighBP,
+        HighChol
+        và Age.
+    </p>
+
+    <!-- Pipeline -->
+    <h2
+        class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+        Pipeline Machine Learning
+    </h2>
+
+    <p>
+        Sau bước phân tích dữ liệu,
+        pipeline Machine Learning được xây dựng nhằm dự đoán nguy cơ tiểu đường
+        dựa trên các đặc trưng sức khỏe và hành vi sống.
+    </p>
+
+    <p>
+        Quy trình huấn luyện bao gồm:
+    </p>
+
+    <ul class="list-disc pl-5 space-y-2">
+
+        <li>Làm sạch và chuẩn hóa dữ liệu</li>
+
+        <li>Feature scaling cho các biến liên tục</li>
+
+        <li>Chia train/test set</li>
+
+        <li>Xử lý mất cân bằng dữ liệu</li>
+
+        <li>Huấn luyện và benchmark nhiều mô hình</li>
+
+        <li>Đánh giá bằng confusion matrix và classification metrics</li>
+
+    </ul>
+
+    <p>
+        Nghiên cứu tập trung so sánh ba hướng tiếp cận chính:
+    </p>
+
+    <ul class="list-disc pl-5 space-y-2">
+
+        <li>
+            <strong>Logistic Regression:</strong>
+            baseline model dễ diễn giải và phù hợp cho dữ liệu y tế.
+        </li>
+
+        <li>
+            <strong>Random Forest:</strong>
+            ensemble learning giúp giảm overfitting và cải thiện khả năng tổng quát hóa.
+        </li>
+
+        <li>
+            <strong>XGBoost:</strong>
+            boosting-based architecture mạnh trong xử lý dữ liệu structured và class imbalance.
+        </li>
+
+    </ul>
+
+    <!-- Kết quả -->
+<h2
+    class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+    Kết quả thực nghiệm
+</h2>
+
+<p>
+    Các mô hình được đánh giá dựa trên nhiều metric khác nhau
+    nhằm phản ánh đầy đủ hiệu năng trong bối cảnh dữ liệu y tế mất cân bằng.
+</p>
+
+<p>
+    Thay vì chỉ tối ưu Accuracy,
+    nghiên cứu tập trung nhiều hơn vào Recall và F1-score
+    cho các nhóm nguy cơ cao nhằm giảm khả năng bỏ sót bệnh nhân.
+</p>
+
+<p>
+    Phân tích chi tiết theo từng class cho thấy mỗi mô hình đều có những ưu điểm riêng
+    trong việc xử lý các nhóm bệnh khác nhau.
+</p>
+
+<ul class="list-disc pl-5 space-y-3">
+
+    <li>
+        <strong>Logistic Regression:</strong>
+        đạt Precision = 93.8%, Recall = 65.8% và F1-score = 77.3%
+        trên nhóm <strong>Không tiểu đường</strong>.
+        Đối với nhóm <strong>Tiền tiểu đường</strong>,
+        mô hình đạt Precision = 3.2%, Recall = 24.7% và F1-score = 5.7%,
+        trong khi ở nhóm <strong>Tiểu đường</strong>,
+        mô hình đạt Precision = 35.4%, Recall = 61.2% cùng F1-score = 44.8%.
+        Logistic Regression cho khả năng diễn giải tốt,
+        tuy nhiên còn gặp hạn chế khi xử lý dữ liệu mất cân bằng mạnh.
+    </li>
+
+    <li>
+        <strong>Random Forest:</strong>
+        đạt Precision = 93.9%, Recall = 63.9% và F1-score = 76.0%
+        trên nhóm <strong>Không tiểu đường</strong>.
+        Với nhóm <strong>Tiền tiểu đường</strong>,
+        mô hình đạt Precision = 3.1%, Recall = 21.7% và F1-score = 5.4%.
+        Trong khi đó,
+        Random Forest đạt Recall cao nhất ở nhóm <strong>Tiểu đường</strong>
+        với Precision = 34.1%, Recall = 65.7% và F1-score = 44.9%.
+    </li>
+
+    <li>
+        <strong>XGBoost:</strong>
+        đạt Precision = 94.7%, Recall = 60.9% và F1-score = 74.1%
+        trên nhóm <strong>Không tiểu đường</strong>.
+        Đối với nhóm <strong>Tiền tiểu đường</strong>,
+        mô hình đạt Precision = 3.1%, Recall cao nhất = 31.8%,
+        mặc dù F1-score vẫn còn thấp ở mức 5.7%
+        do ảnh hưởng của class imbalance nghiêm trọng.
+        Ở nhóm <strong>Tiểu đường</strong>,
+        XGBoost đạt Precision = 35.8%, Recall = 62.2% và F1-score = 45.4% — cao nhất trong ba mô hình,
+        cho thấy XGBoost có xu hướng phát hiện tốt hơn các nhóm bệnh nguy cơ cao.
+    </li>
+
+</ul>
+
+<p>
+    Tuy nhiên, khi so sánh tổng thể thông qua Accuracy,
+    Macro Average và Weighted Average,
+    sự khác biệt giữa ba mô hình không quá lớn.
+    Điều này cho thấy mỗi mô hình đều có sự đánh đổi riêng
+    giữa khả năng tổng quát hóa và hiệu năng trên từng nhóm bệnh.
+</p>
+
+<!-- Bảng kết quả -->
+<div class="overflow-x-auto my-8">
+
+    <table class="min-w-full border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+
+        <thead class="bg-gray-100 dark:bg-gray-800">
+
+            <tr>
+
+                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                    Mô hình
+                </th>
+
+                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900 dark:text-white">
+                    Accuracy
+                </th>
+
+                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900 dark:text-white">
+                    Macro Precision
+                </th>
+
+                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900 dark:text-white">
+                    Macro Recall
+                </th>
+
+                <th class="px-4 py-3 text-center text-sm font-semibold text-gray-900 dark:text-white">
+                    Macro F1-score
+                </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+
+            <!-- Logistic Regression -->
+            <tr class="bg-white dark:bg-gray-900">
+
+                <td class="px-4 py-3">
+                    Logistic Regression
+                </td>
+
+                <td class="px-4 py-3 text-center font-semibold text-blue-600 dark:text-blue-400">
+                    0.64
+                </td>
+
+                <td class="px-4 py-3 text-center">
+                    0.44
+                </td>
+
+                <td class="px-4 py-3 text-center">
+                    0.50
+                </td>
+
+                <td class="px-4 py-3 text-center font-semibold text-blue-600 dark:text-blue-400">
+                    0.43
+                </td>
+
+            </tr>
+
+            <!-- Random Forest -->
+            <tr class="bg-gray-50 dark:bg-gray-800/40">
+
+                <td class="px-4 py-3">
+                    Random Forest
+                </td>
+
+                <td class="px-4 py-3 text-center">
+                    0.63
+                </td>
+
+                <td class="px-4 py-3 text-center">
+                    0.44
+                </td>
+
+                <td class="px-4 py-3 text-center">
+                    0.50
+                </td>
+
+                <td class="px-4 py-3 text-center">
+                    0.42
+                </td>
+
+            </tr>
+
+            <!-- XGBoost -->
+            <tr class="bg-white dark:bg-gray-900">
+
+                <td class="px-4 py-3 font-semibold text-green-600 dark:text-green-400">
+                    XGBoost
+                </td>
+
+                <td class="px-4 py-3 text-center">
+                    0.60
+                </td>
+
+                <td class="px-4 py-3 text-center font-semibold text-green-600 dark:text-green-400">
+                    0.45
+                </td>
+
+                <td class="px-4 py-3 text-center font-semibold text-green-600 dark:text-green-400">
+                    0.51
+                </td>
+
+                <td class="px-4 py-3 text-center">
+                    0.42
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+    <!-- Thách thức -->
+    <h2
+        class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+        Thách thức và giải pháp
+    </h2>
+
+    <ul class="list-disc pl-5 space-y-2">
+
+        <li>
+            <strong>Mất cân bằng dữ liệu nghiêm trọng:</strong>
+            Nhóm Tiền tiểu đường chiếm tỷ lệ rất thấp,
+            khiến mô hình dễ bỏ sót các trường hợp nguy cơ.
+            Các kỹ thuật balancing và tuning threshold được áp dụng nhằm cải thiện Recall.
+        </li>
+
+        <li>
+            <strong>Đặc trưng y tế chồng chéo:</strong>
+            Nhiều đặc trưng giữa các nhóm bệnh có phân bố gần giống nhau,
+            làm tăng độ khó cho bài toán classification đa lớp.
+        </li>
+
+        <li>
+            <strong>Trade-off giữa Precision và Recall:</strong>
+            Trong bối cảnh medical screening,
+            việc tăng Recall thường kéo theo nhiều false positive hơn.
+            Dự án ưu tiên phát hiện được người có nguy cơ thay vì tối ưu Accuracy tuyệt đối.
+        </li>
+
+        <li>
+            <strong>Khả năng diễn giải mô hình:</strong>
+            Các mô hình boosting mạnh như XGBoost có hiệu năng cao
+            nhưng khó diễn giải hơn Logistic Regression trong môi trường y tế.
+        </li>
+
+    </ul>
+
+    <!-- Hướng phát triển -->
+    <h2
+        class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+        Hướng phát triển
+    </h2>
+
+    <p>
+        Dự án có thể được mở rộng theo nhiều hướng
+        nhằm cải thiện độ chính xác và khả năng ứng dụng thực tế:
+    </p>
+
+    <ul class="list-disc pl-5 space-y-2">
+
+        <li>Áp dụng Deep Learning cho dữ liệu y tế structured.</li>
+
+        <li>Sử dụng SMOTE hoặc advanced resampling techniques cho class imbalance.</li>
+
+        <li>Tối ưu hyperparameter bằng Bayesian Optimization hoặc Optuna.</li>
+
+        <li>Mở rộng dữ liệu cho nhiều nhóm dân số và khu vực khác nhau.</li>
+
+    </ul>
+
+                <div class="mt-12 flex justify-center">
+                    <a href="https://github.com/nmman5404/Diabetes-Health-Indicator-Analysis"
+                        target="_blank"
+                        class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">
+                        Xem mã nguồn trên GitHub
+                    </a>
+                </div>
+
+            </article>
+    </main>
+
+    <footer
+        class="text-center py-8 border-t border-gray-200 dark:border-gray-800 text-sm text-gray-500 dark:text-gray-600">
+        <p>Thiết kế bởi Nguyễn Minh Mẫn</p>
+    </footer>
+
+    <!-- SCRIPT DARK MODE -->
+    <script>
+        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        function updateIcon() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleLightIcon.classList.add('hidden');
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+        }
+        updateIcon();
+        var themeToggleBtn = document.getElementById('theme-toggle');
+        themeToggleBtn.addEventListener('click', function () {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+            updateIcon();
+        });
+    </script>
+
+    <script>
+        document.getElementById('back-btn').addEventListener('click', function (e) {
+            e.preventDefault(); // Ngăn trình duyệt nhảy lên đầu trang do dấu #
+
+            // (Tránh trường hợp họ copy link gửi cho bạn bè, bạn bè bấm vào không biết lùi đi đâu)
+            if (document.referrer && document.referrer.includes(window.location.host)) {
+                window.history.back(); // Trở lại đúng trang trước đó (vi.html hoặc index.html)
+            } else {
+                // Nếu khách vào thẳng link blog, mặc định cho họ về trang chủ tiếng Anh
+                window.location.href = '/';
+
+            }
+        });
+    </script>
+</body>
+
+</html>
