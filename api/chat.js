@@ -69,10 +69,11 @@ ${userMessage}
 
 Response:
 `;
+        const aiModelName = process.env.GEMINI_MODEL_NAME || "gemini-3.1-flash-lite-preview";
 
         // 4. KHỞI TẠO VÀ GỌI MODEL
         const model = genAI.getGenerativeModel({ 
-            model: "gemini-3.1-flash-lite-preview" 
+            model: aiModelName
         });
 
         const result = await model.generateContent(finalPrompt);
