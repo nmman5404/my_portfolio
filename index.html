@@ -1185,13 +1185,12 @@
         });
     });
 
-
     // 7. HIỆU ỨNG GÕ CHỮ (TÊN) VÀ XOAY VÒNG CHỨC DANH
     const nameElement = document.getElementById('typewriter-name');
     const nameText = "Nguyen Minh Man";
     let nameIndex = 0;
 
-    const roles = ["Quantitative Researcher", "Data Scientist", "Data Engineer"];
+    const roles = ["Quantitative Researcher", "Data Scientist", "Data Engineer", "Business Analyst", "Business Intelligence Analyst"];
     const roleElement = document.getElementById('rotating-text');
     let roleIndex = 0;
     let charIndex = 0;
@@ -1263,11 +1262,12 @@
 
     // 9. HIỆU ỨNG XOAY VÒNG CHỮ PHẦN LIÊN HỆ
     const contactPhrases = [
-        "Build Something Intelligent",
-        "Build Great Things Together",
+        "Build Intelligent Systems",
         "Turn Data into Decisions",
-        "Build AI That Works",
-        "Solve Real Problems with Data"
+        "Optimize Through Data",
+        "Build AI That Solves Real Problems",
+        "Connect Data with Business",
+        "Transform Insights into Action"
     ];
     
     const contactElement = document.getElementById('contact-rotating-text');
@@ -1365,7 +1365,7 @@
         musicToggleBtn.classList.remove('animate-gentle-shake', 'text-blue-500');
     });
 
-    // --- LOGIC MỚI: TỰ ĐỘNG PHÁT VÀ RUNG KHI CÓ TƯƠNG TÁC ---
+    // --- TỰ ĐỘNG PHÁT VÀ RUNG KHI CÓ TƯƠNG TÁC ---
     function unlockAudio() {
         if (hasUserInteracted) return; // Nếu đã kích hoạt rồi thì bỏ qua
 
@@ -1408,12 +1408,8 @@
             // Nếu nhạc ĐANG BẬT thì mới tạm dừng
             if (isMusicPlaying) {
                 bgMusic.pause();
-                // Lưu ý: Không đổi biến isMusicPlaying thành false ở đây, 
-                // để web nhớ rằng trước khi rời đi, người dùng vẫn đang muốn nghe nhạc.
             }
         } else {
-            // Khi người dùng quay lại tab
-            // Chỉ phát nhạc tiếp nếu trước đó họ chưa bấm tắt (isMusicPlaying vẫn là true)
             if (isMusicPlaying) {
                 bgMusic.play().catch(e => console.warn("Lỗi phát lại nhạc khi quay về tab:", e));
             }
