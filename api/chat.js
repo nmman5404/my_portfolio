@@ -71,7 +71,7 @@ Generate the final response directly without any internal monologue or step-by-s
 
 Response:
 `;
-        const aiModelName = process.env.GEMINI_MODEL_NAME || "gemini-3.1-flash-lite-preview";
+        const aiModelName = process.env.GEMINI_MODEL_NAME || "gemini-3.1-flash-lite";
 
         // 4. KHỞI TẠO VÀ GỌI MODEL
         const model = genAI.getGenerativeModel({ 

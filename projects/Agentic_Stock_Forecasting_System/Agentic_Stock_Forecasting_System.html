@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Agentic Stock Forecasting System</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        html { background-color: #f9fafb; }
+        html.dark { background-color: #111827; } 
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-300 font-sans antialiased transition-colors duration-300">
+
+    <!-- Navbar tối giản cho trang Blog -->
+    <nav class="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 z-50 transition-colors duration-300">
+        <div class="max-w-4xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" id="back-btn" class="text-blue-500 hover:underline">
+                &larr; Quay lại trang chủ
+            </a>
+
+            <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-white transition-colors">
+                <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- NỘI DUNG BÀI VIẾT -->
+    <main class="max-w-4xl mx-auto px-6 pt-32 pb-20">
+
+        <!-- Header Bài viết -->
+        <div class="mb-10 text-center">
+            <p class="text-blue-600 dark:text-blue-500 font-mono mb-3">Project Case Study</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                Agentic Stock Forecasting System
+            </h1>
+            <div class="flex items-center justify-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                <span>Nguyễn Minh Mẫn</span>
+            </div>
+            <div class="flex items-center justify-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                <span>2026</span>
+            </div>
+        </div>
+
+        <!-- Ảnh Hero (Banner chính) -->
+        <div class="w-full aspect-video bg-gray-200 dark:bg-gray-800 rounded-2xl overflow-hidden mb-12 shadow-lg">
+            <img src="proj6_banner.png" 
+                alt="Agentic Stock Forecasting System Banner" 
+                class="w-full h-full object-cover">
+        </div>
+
+        <!-- Nội dung -->
+        <article class="prose prose-lg dark:prose-invert max-w-none text-gray-700 dark:text-gray-300">
+
+            <!-- Tổng quan -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Tổng quan
+            </h2>
+
+            <p>
+                Agentic Stock Forecasting System là một hệ thống nghiên cứu định lượng được hỗ trợ bởi AI Agent, kết hợp giữa mô hình Machine Learning truyền thống và khả năng suy luận của Large Language Model.
+                Thay vì chỉ tạo ra một con số dự báo đơn lẻ, hệ thống xây dựng một pipeline hoàn chỉnh để thu thập dữ liệu thị trường, tạo đặc trưng kỹ thuật, dự báo theo nhiều phân vị, giám sát độ ổn định của mô hình và sinh báo cáo nghiên cứu tự động.
+            </p>
+
+            <p>
+                Mục tiêu chính của dự án không phải là xây dựng bot giao dịch tự động, mà là phát triển một nền tảng hỗ trợ nghiên cứu tài chính có khả năng đánh giá chất lượng mô hình, phát hiện bối cảnh thị trường thay đổi và đề xuất tinh chỉnh mô hình khi hiệu năng suy giảm.
+                Đây là một hướng tiếp cận gần với MLOps trong tài chính: mô hình không chỉ được huấn luyện một lần, mà được theo dõi, đánh giá và cải thiện theo dữ liệu mới.
+            </p>
+
+            <p>
+                Điểm nổi bật của dự án nằm ở việc kết hợp LightGBM Quantile Regression với LangGraph Agentic Workflow.
+                Mô hình chịu trách nhiệm dự báo xác suất, trong khi AI Agent đóng vai trò như một lớp điều phối thông minh: đọc metric, kiểm tra drift, phân tích regime, tìm kiếm tin tức, đề xuất cấu hình mới và tạo audit trail cho toàn bộ quyết định.
+            </p>
+
+            <!-- Công nghệ -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Các công cụ và công nghệ
+            </h2>
+
+            <ul class="list-disc pl-5 space-y-2">
+                <li><strong>Ngôn ngữ lập trình:</strong> Python</li>
+                <li><strong>Mô hình dự báo:</strong> LightGBM Quantile Regression</li>
+                <li><strong>Agentic Workflow:</strong> LangGraph, Gemini API, prompt templates, state machine</li>
+                <li><strong>Xử lý dữ liệu:</strong> Pandas, NumPy, SQLite, vnstock API</li>
+                <li><strong>Feature Engineering:</strong> RSI, MACD, ATR, ROC, moving averages, lag features, volatility features</li>
+                <li><strong>Monitoring:</strong> Drift Detection, Regime Detection, Risk Engine</li>
+                <li><strong>Đánh giá mô hình:</strong> Walk-forward validation, MAE, RMSE, MAPE, sMAPE, Directional Accuracy, Pinball Loss, Interval Coverage</li>
+                <li><strong>Báo cáo:</strong> Markdown, HTML, JSON, Plotly visualization</li>
+            </ul>
+
+            <!-- Kiến trúc -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Kiến trúc hệ thống
+            </h2>
+
+            <p>
+                Hệ thống được thiết kế theo dạng pipeline nhiều tầng, trong đó mỗi module đảm nhiệm một trách nhiệm riêng biệt:
+                tầng ingestion thu thập dữ liệu thị trường, tầng processing làm sạch và tạo đặc trưng, tầng modeling thực hiện huấn luyện và dự báo, tầng monitoring đánh giá bối cảnh, còn tầng agent điều phối việc đánh giá và tự cải thiện cấu hình mô hình.
+            </p>
+
+            <p>
+                Cấu trúc này giúp dự án dễ mở rộng, dễ debug và phù hợp với tư duy production-oriented.
+                Thay vì để toàn bộ logic nằm trong một notebook đơn lẻ, các thành phần như data ingestion, feature engineering, validation, monitoring, agent workflow và reporting được tách thành từng module độc lập.
+            </p>
+
+            <!-- Workflow -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Quy trình hoạt động
+            </h2>
+
+            <p>
+                Toàn bộ hệ thống được khởi chạy từ entry point <code>main.py</code>. Pipeline nhận mã cổ phiếu mục tiêu, sau đó tự động thực hiện các bước từ thu thập dữ liệu đến sinh báo cáo cuối cùng.
+            </p>
+
+            <ul class="list-disc pl-5 space-y-2">
+                <li><strong>Data Ingestion:</strong> lấy dữ liệu OHLCV lịch sử của cổ phiếu mục tiêu và dữ liệu bối cảnh thị trường như VN30, VN30F1M.</li>
+                <li><strong>Feature Engineering:</strong> tính toán các đặc trưng kỹ thuật, rolling features, lag features và biến động khối lượng.</li>
+                <li><strong>Modeling & Validation:</strong> huấn luyện LightGBM Quantile Regression và đánh giá bằng walk-forward validation.</li>
+                <li><strong>Forecasting:</strong> dự báo 7 ngày tiếp theo theo nhiều phân vị nhằm thể hiện vùng bất định của mô hình.</li>
+                <li><strong>Monitoring:</strong> phát hiện drift, phân loại regime thị trường và tính toán rủi ro tài chính từ forecast quantiles.</li>
+                <li><strong>Agentic Evaluation:</strong> AI Agent đọc toàn bộ context, đánh giá trạng thái mô hình và quyết định có cần tìm tin tức, retrain hoặc giữ nguyên cấu hình hay không.</li>
+                <li><strong>Final Reporting:</strong> tổng hợp forecast, metrics, monitoring report, news context và audit trail thành báo cáo Markdown, HTML và JSON.</li>
+            </ul>
+
+            <!-- Dataset -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Dữ liệu và tiền xử lý
+            </h2>
+
+            <p>
+                Hệ thống sử dụng dữ liệu thị trường Việt Nam được lấy thông qua API <code>vnstock</code>, bao gồm dữ liệu OHLCV trong khoảng hai năm cho mã cổ phiếu mục tiêu.
+                Bên cạnh đó, dự án còn bổ sung dữ liệu bối cảnh từ VN30 và VN30F1M nhằm giúp mô hình nhận biết trạng thái chung của thị trường.
+            </p>
+
+            <p>
+                Dữ liệu thô được lưu lại dưới dạng CSV snapshot và trong SQLite database để thuận tiện cho việc kiểm tra, debug và tái lập kết quả.
+                Sau đó, pipeline xử lý dữ liệu sẽ merge dữ liệu cổ phiếu với bối cảnh thị trường, xử lý missing values, loại bỏ các dòng bị NaN do rolling window hoặc lag features và lưu bảng đã xử lý theo từng mã cổ phiếu.
+            </p>
+
+            <p>
+                Các đặc trưng được xây dựng không chỉ dựa trên giá tuyệt đối mà còn dựa trên tỷ suất lợi nhuận, biến động khối lượng, xu hướng giá, volatility và các chỉ báo phân tích kỹ thuật.
+                Điều này giúp mô hình nắm bắt tốt hơn cả thông tin ngắn hạn lẫn bối cảnh thị trường rộng hơn.
+            </p>
+
+            <!-- Mô hình -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Mô hình dự báo xác suất
+            </h2>
+
+            <p>
+                Thay vì dự báo một giá trị duy nhất, hệ thống sử dụng LightGBM Quantile Regression để dự báo nhiều phân vị của phân phối giá tương lai.
+                Các phân vị chính gồm <code>q_0.025</code>, <code>q_0.1</code>, <code>q_0.5</code>, <code>q_0.9</code> và <code>q_0.975</code>.
+            </p>
+
+            <p>
+                Trong đó, <code>q_0.5</code> đóng vai trò là dự báo trung vị, còn các phân vị thấp và cao tạo thành dải bất định của forecast.
+                Cách tiếp cận này phù hợp hơn với dữ liệu tài chính vì thị trường luôn tồn tại rủi ro và sự không chắc chắn, đặc biệt trong các giai đoạn biến động mạnh.
+            </p>
+
+            <p>
+                Để đánh giá khách quan theo thời gian, dự án áp dụng walk-forward validation.
+                Thay vì chia train/test ngẫu nhiên, mô hình được huấn luyện trên dữ liệu quá khứ và validate trên giai đoạn tương lai gần.
+                Điều này giúp hạn chế rò rỉ thông tin tương lai và phản ánh sát hơn cách mô hình sẽ hoạt động trong thực tế.
+            </p>
+
+            <div class="flex justify-center my-8">
+                <div class="w-full max-w-2xl">
+                    <img 
+                        src="proj6_agentic_forecast.png"
+                        alt="Forecast Quantiles"
+                        class="w-full rounded-xl shadow-md border border-gray-200 dark:border-gray-700"
+                    >
+                    <p class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2 italic">
+                        Forecast theo nhiều phân vị, giúp thể hiện cả dự báo trung vị lẫn vùng bất định của giá trong tương lai.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Monitoring -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Monitoring: Drift, Regime và Risk
+            </h2>
+
+            <p>
+                Một điểm quan trọng của dự án là hệ thống không chỉ dừng lại ở việc tạo forecast.
+                Sau khi có kết quả dự báo và validation metrics, pipeline tiếp tục chạy các monitoring engine để mô tả bối cảnh thị trường và phát hiện dấu hiệu mô hình có thể đang suy giảm hiệu năng.
+            </p>
+
+            <ul class="list-disc pl-5 space-y-2">
+                <li>
+                    <strong>Regime Detector:</strong> phân loại thị trường theo xu hướng, độ biến động và trạng thái thanh khoản.
+                    Hệ thống có thể nhận diện các trạng thái như uptrend, downtrend, sideways, high volatility hoặc volume spike.
+                </li>
+                <li>
+                    <strong>Drift Detector:</strong> so sánh dữ liệu hiện tại với dữ liệu tham chiếu để phát hiện feature drift, target drift và concept drift.
+                    Các chỉ số như mean shift Z-score, standard deviation ratio và PSI được dùng để đánh giá mức độ lệch phân phối.
+                </li>
+                <li>
+                    <strong>Risk Engine:</strong> tính toán expected return, downside risk, upside potential, VaR, Expected Shortfall và risk/reward ratio từ các forecast quantiles.
+                </li>
+            </ul>
+
+            <p>
+                Các monitoring engine này không trực tiếp ra quyết định giao dịch.
+                Vai trò chính của chúng là cung cấp context định lượng để Agent hiểu mô hình đang hoạt động trong môi trường thị trường như thế nào.
+            </p>
+
+            <!-- Agentic Workflow -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Agentic Workflow bằng LangGraph
+            </h2>
+
+            <p>
+                Sau khi pipeline tạo đủ forecast, metrics và monitoring reports, toàn bộ thông tin được đóng gói vào <code>AgentState</code>.
+                LangGraph sau đó điều phối workflow qua nhiều node, mỗi node đảm nhiệm một hành động cụ thể.
+            </p>
+
+            <ul class="list-disc pl-5 space-y-2">
+                <li>
+                    <strong>node_fix_quantiles:</strong> kiểm tra và sửa lỗi quantile crossing để đảm bảo các dải dự báo hợp lệ về mặt toán học.
+                </li>
+                <li>
+                    <strong>node_llm_evaluate:</strong> LLM đọc validation metrics, drift, regime và risk context để đánh giá trạng thái mô hình là OK hoặc BAD.
+                </li>
+                <li>
+                    <strong>node_search_news:</strong> khi mô hình có dấu hiệu kém ổn định, Agent tìm kiếm tin tức liên quan đến mã cổ phiếu qua Google News RSS để bổ sung bối cảnh.
+                </li>
+                <li>
+                    <strong>node_llm_retrain_compare:</strong> LLM đề xuất cấu hình LightGBM mới, hệ thống retrain bằng Python, đánh giá lại bằng walk-forward validation và so sánh với cấu hình cũ.
+                </li>
+                <li>
+                    <strong>Self-Reflection:</strong> nếu cấu hình mới không tốt hơn, hệ thống lưu lại rejected config để Agent tránh lặp lại lựa chọn kém hiệu quả trong vòng thử tiếp theo.
+                </li>
+            </ul>
+
+            <p>
+                Cơ chế này giúp dự án vượt ra khỏi mô hình ML truyền thống.
+                Agent không thay thế hoàn toàn logic định lượng, mà đóng vai trò như một lớp điều phối và giải thích, kết hợp reasoning của LLM với các kiểm chứng khách quan bằng code.
+            </p>
+
+            <!-- Kết quả -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Kết quả đạt được
+            </h2>
+
+            <p>
+                Dự án xây dựng được một pipeline nghiên cứu tài chính end-to-end, có khả năng chạy tự động từ dữ liệu thô đến báo cáo cuối cùng.
+                Kết quả đầu ra không chỉ gồm forecast, mà còn bao gồm validation metrics, phân tích drift, regime, risk, news context, quyết định cấu hình mô hình và audit trail của agentic workflow.
+            </p>
+
+            <ul class="list-disc pl-5 space-y-2">
+                <li>Dự báo 7 ngày tiếp theo theo nhiều phân vị, phản ánh cả kỳ vọng trung vị và vùng rủi ro.</li>
+                <li>Đánh giá mô hình bằng walk-forward validation để phù hợp với bản chất chuỗi thời gian tài chính.</li>
+                <li>Phát hiện drift và regime giúp theo dõi sự thay đổi của thị trường theo thời gian.</li>
+                <li>Tích hợp Risk Engine để chuyển forecast thành các chỉ số tài chính dễ diễn giải hơn.</li>
+                <li>Xây dựng Agentic Workflow có khả năng đánh giá, retrain, so sánh config và ghi lại audit trail.</li>
+                <li>Sinh báo cáo đầu ra ở nhiều định dạng như Markdown, HTML và JSON.</li>
+            </ul>
+
+            <p>
+                Final action của hệ thống có thể là BUY, SELL, HOLD hoặc WATCH.
+                Tuy nhiên, kết quả này được định nghĩa như một research output hoặc paper-trading signal, không phải khuyến nghị đầu tư hay tín hiệu giao dịch thực tế.
+            </p>
+
+            <!-- Thách thức -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Thách thức và giải pháp
+            </h2>
+
+            <ul class="list-disc pl-5 space-y-2">
+                <li>
+                    <strong>Dữ liệu tài chính biến động mạnh:</strong>
+                    Giá cổ phiếu thay đổi theo thời gian và chịu ảnh hưởng bởi nhiều yếu tố ngoài dữ liệu lịch sử.
+                    Dự án sử dụng walk-forward validation, regime detection và drift monitoring để đánh giá mô hình theo bối cảnh động.
+                </li>
+
+                <li>
+                    <strong>Dự báo điểm không đủ để mô tả rủi ro:</strong>
+                    Một giá trị dự báo duy nhất không thể hiện được mức độ bất định.
+                    Vì vậy, hệ thống dùng Quantile Regression để tạo nhiều phân vị và tính toán VaR, Expected Shortfall, downside risk từ các dải dự báo.
+                </li>
+
+                <li>
+                    <strong>Quantile crossing:</strong>
+                    Các phân vị đôi khi có thể bị sai thứ tự, ví dụ phân vị thấp lại cao hơn phân vị trung vị.
+                    Node <code>node_fix_quantiles</code> được thêm vào workflow để kiểm tra và sửa lỗi này trước khi tạo báo cáo.
+                </li>
+
+                <li>
+                    <strong>LLM có thể đề xuất cấu hình không tốt:</strong>
+                    Mọi đề xuất của Agent đều được kiểm chứng lại bằng retraining và walk-forward validation.
+                    Nếu cấu hình mới không cải thiện hiệu năng, hệ thống từ chối thay đổi và lưu lại rejected config cho vòng self-reflection.
+                </li>
+
+                <li>
+                    <strong>Cần khả năng audit và giải thích:</strong>
+                    Dự án sinh báo cáo cuối cùng kèm context, quyết định cấu hình và audit trail để người đọc có thể hiểu vì sao hệ thống đưa ra hành động nghiên cứu cuối cùng.
+                </li>
+            </ul>
+
+            <!-- Hướng phát triển -->
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2">
+                Hướng phát triển
+            </h2>
+
+            <p>
+                Trong tương lai, dự án có thể được mở rộng theo nhiều hướng để tiến gần hơn đến một nền tảng nghiên cứu định lượng hoàn chỉnh:
+            </p>
+
+            <ul class="list-disc pl-5 space-y-2">
+                <li>Bổ sung thêm nhiều mã cổ phiếu và benchmark cross-sectional giữa các nhóm ngành.</li>
+                <li>Tích hợp backtesting module để đánh giá paper-trading signal theo thời gian.</li>
+                <li>Mở rộng news engine với nhiều nguồn dữ liệu hơn thay vì chỉ dùng Google News RSS.</li>
+                <li>Xây dựng dashboard theo dõi forecast, drift, risk và agent decisions theo thời gian thực.</li>
+                <li>Bổ sung model registry và experiment tracking để quản lý phiên bản cấu hình mô hình tốt hơn.</li>
+                <li>Tăng cường guardrails cho LLM để kiểm soát chặt hơn phạm vi đề xuất tham số và giảm rủi ro hallucination.</li>
+            </ul>       
+
+            <div class="mt-12 flex justify-center">
+                <a href="https://github.com/nmman5404/agentic_stock_forecasting_system" target="_blank" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/40">
+                   Xem mã nguồn trên GitHub
+                </a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer class="text-center py-8 border-t border-gray-200 dark:border-gray-800 text-sm text-gray-500 dark:text-gray-600">
+        <p>Thiết kế bởi Nguyễn Minh Mẫn</p>
+    </footer>
+
+    <!-- SCRIPT DARK MODE -->
+    <script>
+        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        function updateIcon() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleDarkIcon.classList.add('hidden');
+            } else {
+                themeToggleLightIcon.classList.add('hidden');
+                themeToggleDarkIcon.classList.remove('hidden');
+            }
+        }
+        updateIcon();
+        var themeToggleBtn = document.getElementById('theme-toggle');
+        themeToggleBtn.addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+            updateIcon();
+        });
+    </script>
+
+    <script>
+    document.getElementById('back-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+
+        if (document.referrer && document.referrer.includes(window.location.host)) {
+            window.history.back();
+        } else {
+            window.location.href = '/'; 
+        }
+    });
+    </script>
+</body>
+</html>
